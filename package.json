@@ -1,0 +1,40 @@
+{
+  "name": "contrastic",
+  "description": "Just another contrast tool.",
+  "version": "1.0.0",
+  "type": "module",
+  "keywords": [
+    "contrast",
+    "accessibility",
+    "wcag"
+  ],
+  "scripts": {
+    "dev": "vite --host --open",
+    "lint": "eslint --ext .js ./",
+    "lint:fix": "eslint --fix --ext .js ./",
+    "format": "prettier --write \"./**/*.{js,jsx,json,css}\"",
+    "build": "vite build",
+    "preview": "vite preview --open",
+    "buildpreview": "vite build && vite preview --open"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "cssnano": "^7.0.6",
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.2.3",
+    "postcss": "^8.5.3",
+    "postcss-nesting": "^13.0.1",
+    "prettier": "^3.5.3",
+    "vite": "6.2.2",
+    "vite-plugin-eslint": "^1.8.1"
+  },
+  "dependencies": {
+    "@floating-ui/dom": "^1.6.13",
+    "@oddbird/popover-polyfill": "^0.5.2",
+    "sa11y": "^4.1.1",
+    "vanilla-colorful": "^0.7.2"
+  }
+}

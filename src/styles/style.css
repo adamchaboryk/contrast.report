@@ -1,0 +1,151 @@
+:root {
+  --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+}
+
+main,
+aside {
+  padding: 50px;
+}
+
+.column {
+  display: flex;
+}
+
+#app {
+  max-width: 80rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 800px) {
+  #app {
+    flex-direction: column;
+  }
+}
+
+#toolbar {
+  padding-top: 40px;
+}
+
+h1 {
+  font-size: 3.2rem;
+  line-height: 1.1;
+  font-weight: normal;
+}
+
+.column {
+  margin-top: 20px;
+}
+
+.foreground {
+  margin-inline-end: 20px;
+}
+
+.color-picker-field {
+  display: flex;
+  align-items: center;
+}
+
+.color-picker-field button {
+  display: block;
+  width: 44px;
+  height: 44px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border: 2px solid #a4a4a4;
+  border-right: 0;
+}
+
+[popover] {
+  padding: 20px;
+  border: 0;
+  background: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0px 20px 50px 0px #00000050;
+  opacity: 0;
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+hex-color-picker,
+hex-alpha-color-picker {
+  width: 350px;
+  height: 300px;
+}
+
+input {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 250px;
+  height: 44px;
+  padding: 6px;
+  border: 2px solid #a4a4a4;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  background: #fff;
+  outline: none;
+  font: inherit;
+  font-size: 1.5rem;
+}
+
+#ratio {
+  font-size: 3rem;
+  font-weight: bold;
+  display: inline;
+  margin-inline-start: 20px;
+  border: 4px solid;
+  border-radius: 5px;
+  padding: 4px 7px;
+}
+
+/* Preview area */
+.card {
+  padding: 20px;
+  margin-top: 15px;
+  margin-bottom: 40px;
+  border-radius: 4px;
+}
+
+#normal {
+  font-size: 17px;
+  line-height: 1.1;
+}
+
+#large {
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+#icons {
+  line-height: 0;
+}
+
+svg {
+  display: inline-block;
+  margin-inline-end: 20px;
+}
+
+/* Utilities */
+.divider {
+  margin-inline-start: 6px;
+  margin-inline-end: 6px;
+}
+
+.visually-hidden {
+  position: absolute;
+  display: block;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+  border: 0;
+  clip-path: inset(50%);
+}
