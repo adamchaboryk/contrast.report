@@ -1,27 +1,34 @@
 import '../styles/reset.css';
 import '../styles/style.css';
 import '@oddbird/popover-polyfill';
-import 'vanilla-colorful/hex-color-picker.js';
-import 'vanilla-colorful/hex-alpha-color-picker.js';
+import chroma from 'chroma-js';
+import 'vanilla-colorful/rgb-string-color-picker.js';
+import 'vanilla-colorful/rgba-string-color-picker.js';
 import { computePosition } from '@floating-ui/dom';
 import * as Sa11yContrastUtils from 'sa11y/src/js/utils/contrast-utils.js';
-import { bell, check, cart, cloud, trash, cc } from './icons.js';
+import { bell, check, cart, cloud, trash, star } from './icons.js';
 
 // Function to get URL parameters
 function getUrlParams() {
   const params = new URLSearchParams(window.location.search);
   return {
-    fg: `#${params.get('fg') || 'ffffff'}`,
-    bg: `#${params.get('bg') || '000000'}`,
+    fg: `${params.get('fg') || '#ffffff'}`,
+    bg: `${params.get('bg') || '#000000'}`,
   };
 }
 
 // Function to update URL parameters
 function updateUrlParams(fg, bg) {
   const params = new URLSearchParams(window.location.search);
-  params.set('fg', fg.replace('#', ''));
-  params.set('bg', bg.replace('#', ''));
-  window.history.replaceState({}, '', `?${params.toString()}`);
+  params.set('fg', fg);
+  params.set('bg', bg);
+  window.history.replaceState(null, '', `?${params}`);
+}
+
+// Function to generate permalink
+function generatePermalink(fg, bg) {
+  const baseUrl = window.location.origin + window.location.pathname;
+  return `${baseUrl}?fg=${encodeURIComponent(fg)}&bg=${encodeURIComponent(bg)}`;
 }
 
 // Get initial values
@@ -30,10 +37,7 @@ const { fg, bg } = getUrlParams();
 // Render UI
 document.querySelector('#app').innerHTML = `
   <main>
-    <h1>Contrast Ratio <div id="ratio"></div></h1>
-     <div id="toolbar">
-      <button type="button" id="reverse">Reverse</button>
-    </div>
+    <h1>Contrast Ratio <div id="ratio-container"></div></h1>
     <div class="column">
       <div class="foreground">
         <label for="fg-input">Foreground</label>
@@ -46,7 +50,7 @@ document.querySelector('#app').innerHTML = `
             popovertarget="fg-popover"
           ></button>
           <div id="fg-popover" popover>
-            <hex-alpha-color-picker id="fg-picker" color="${fg}"></hex-alpha-color-picker>
+            <rgba-string-color-picker id="fg-picker" color="${fg}"></rgba-string-color-picker>
           </div>
           <input type="text" id="fg-input" value="${fg}">
         </div>
@@ -62,11 +66,16 @@ document.querySelector('#app').innerHTML = `
             popovertarget="bg-popover"
           ></button>
           <div id="bg-popover" popover>
-            <hex-color-picker id="bg-picker" color="${bg}"></hex-color-picker>
+            <rgb-string-color-picker id="bg-picker" color="${bg}"></rgb-string-color-picker>
           </div>
           <input type="text" id="bg-input" value="${bg}">
         </div>
       </div>
+    </div>
+    <div id="toolbar">
+      <button type="button" id="wcag-aa">WCAG AA</button>
+      <button type="button" id="reverse">Reverse</button>
+      <button type="button" id="permalink">Permalink</button>
     </div>
   </main>
   <aside aria-labelledby="preview">
@@ -81,9 +90,9 @@ document.querySelector('#app').innerHTML = `
       <p>The <em>quick</em> brown fox <strong>jumps</strong> over the lazy dog.</p>
     </div>
 
-    <h3>Non-text & UI</h3>
+    <h3>Non-text</h3>
     <div id="icons" class="card" style="color: ${fg}; background-color: ${bg}">
-      ${bell + check + cart + cloud + trash + cc}
+      ${bell + check + cart + cloud + trash + star}
     </div>
   </aside>
 `;
@@ -100,16 +109,32 @@ const bgInput = document.getElementById('bg-input');
 const bgPopover = document.getElementById('bg-popover');
 
 const reverseBtn = document.getElementById('reverse');
-// const improveBtn = document.getElementById('improve');
+const permalinkBtn = document.getElementById('permalink');
 
 // Calculate contrast.
 const updateRatio = () => {
-  const contrast = Sa11yContrastUtils.calculateContrast(
-    Sa11yContrastUtils.convertToRGBA(fgInput.value),
-    Sa11yContrastUtils.convertToRGBA(bgInput.value),
-  );
-  const ratio = document.getElementById('ratio');
-  ratio.innerHTML = `${contrast.ratio.toFixed(2)}<span class="divider">:</span>1`;
+  const fgColor = fgInput.value;
+  const bgColor = bgInput.value;
+
+  // Check if both colors are valid Chroma.js colors
+  console.log(`${chroma(fgColor).name()}`);
+  if (chroma.valid(fgColor) && chroma.valid(bgColor)) {
+    const contrast = Sa11yContrastUtils.calculateContrast(
+      Sa11yContrastUtils.convertToRGBA(fgColor),
+      Sa11yContrastUtils.convertToRGBA(bgColor),
+    );
+
+    if (!Number.isNaN(contrast.ratio) && Number.isFinite(contrast.ratio)) {
+      const ratio = document.getElementById('ratio-container');
+      ratio.innerHTML = `<div id="ratio">${contrast.ratio.toFixed(2)}<span class="divider">:</span>1</div>`;
+      reverseBtn.removeAttribute('hidden');
+      permalinkBtn.removeAttribute('hidden');
+    }
+  } else {
+    document.getElementById('ratio-container').innerHTML = '';
+    reverseBtn.toggleAttribute('hidden', true);
+    permalinkBtn.toggleAttribute('hidden', true);
+  }
 };
 updateRatio();
 
@@ -121,21 +146,35 @@ const updatePreview = () => {
     element.style.color = fgInput.value;
     element.style.backgroundColor = bgInput.value;
   });
+
+  // Clear URL params when user starts interacting with the picker.
+  window.history.replaceState(null, '', window.location.pathname);
 };
+
+function sanitizeColorInput(color) {
+  let sanitizedColor = color.trim();
+  if (sanitizedColor.endsWith(';')) {
+    sanitizedColor = sanitizedColor.slice(0, -1);
+  }
+  return sanitizedColor;
+}
 
 // Foreground event listeners
 fgPicker.addEventListener('color-changed', (event) => {
   const color = event.detail.value;
   fgInput.value = color;
   fgBtn.style.backgroundColor = color;
-  updateUrlParams(color, bgInput.value);
   updateRatio();
   updatePreview();
 });
 
 fgInput.addEventListener('input', () => {
-  fgPicker.color = fgInput.value;
-  updateUrlParams(fgInput.value, bgInput.value);
+  const colorValue = sanitizeColorInput(fgInput.value);
+  fgPicker.color = colorValue;
+  fgInput.value = colorValue;
+  fgBtn.style.backgroundColor = colorValue;
+  updateRatio();
+  updatePreview();
 });
 
 // Background event listeners
@@ -143,14 +182,24 @@ bgPicker.addEventListener('color-changed', (event) => {
   const color = event.detail.value;
   bgInput.value = color;
   bgBtn.style.backgroundColor = color;
-  updateUrlParams(fgInput.value, color);
   updateRatio();
   updatePreview();
 });
 
 bgInput.addEventListener('input', () => {
-  bgPicker.color = bgInput.value;
-  updateUrlParams(fgInput.value, bgInput.value);
+  const colorValue = sanitizeColorInput(bgInput.value);
+  bgInput.value = colorValue;
+  bgPicker.color = colorValue;
+  bgBtn.style.backgroundColor = colorValue;
+  updateRatio();
+  updatePreview();
+});
+
+// Permalink button listener
+permalinkBtn.addEventListener('click', () => {
+  const permalink = generatePermalink(fgInput.value, bgInput.value);
+  // eslint-disable-next-line no-alert
+  prompt('Copy this URL to share the current colour combination:', permalink);
 });
 
 const transparentHexToSolid = (hex) => {
@@ -173,13 +222,6 @@ reverseBtn.addEventListener('click', () => {
   updateRatio();
   updatePreview();
 });
-
-/* Improve button.
-improveBtn.addEventListener('click', () => {
-  updateUrlParams(fgInput.value, bgInput.value);
-  updateRatio();
-  updatePreview();
-}); */
 
 // Position popovers.
 const positionPopover = (event) => {
