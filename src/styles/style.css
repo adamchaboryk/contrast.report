@@ -5,6 +5,19 @@
   --input-border-color: #000;
 }
 
+.sr-only {
+  position: absolute;
+  display: block;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+  border: 0;
+  clip-path: inset(50%);
+}
+
 body {
   margin: 0;
   font-family: var(--font-family);
@@ -38,6 +51,7 @@ aside {
 }
 
 label {
+  font-size: 1.1rem;
   font-weight: 500;
 }
 
@@ -50,25 +64,26 @@ h1 {
 }
 
 .column {
-  margin-top: 20px;
+  display: flex;
 }
 
-.color-inputs {
+.tri-column {
   display: flex;
-
-  #fg-group {
-    margin-inline-end: 15px;
-  }
-
-  section {
-    margin-bottom: 10px;
-  }
 }
 
 @media (max-width: 800px) {
-  .color-inputs {
+  .tri-column {
     flex-direction: column;
   }
+}
+
+.column-1,
+.column-2 {
+  padding-right: 30px;
+}
+
+section {
+  margin-bottom: 10px;
 }
 
 .color-format {
