@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import eslint from 'vite-plugin-eslint';
+import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
   publicDir: 'public',
@@ -33,6 +34,9 @@ export default defineConfig({
     eslint({
       cache: false,
       fix: true,
+    }),
+    VitePWA({
+      registerType: 'autoUpdate',
     }),
   ],
 });

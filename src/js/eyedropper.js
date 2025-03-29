@@ -15,7 +15,7 @@ export default function initEyeDropper() {
             window.documentPictureInPicture.window?.document || document;
           root.getElementById('fg-picker').value = result.sRGBHex;
           root.getElementById('fg-input').value = result.sRGBHex;
-          root.getElementById('preview').style.color = result.sRGBHex;
+          root.getElementById('mini-preview').style.color = result.sRGBHex;
           store.setItem('foreground', result.sRGBHex);
           updateRatio();
           updatePreview();
@@ -33,7 +33,8 @@ export default function initEyeDropper() {
             window.documentPictureInPicture.window?.document || document;
           root.getElementById('bg-picker').value = result.sRGBHex;
           root.getElementById('bg-input').value = result.sRGBHex;
-          root.getElementById('preview').style.backgroundColor = result.sRGBHex;
+          root.getElementById('mini-preview').style.backgroundColor =
+            result.sRGBHex;
           store.setItem('background', result.sRGBHex);
           updateRatio();
           updatePreview();
@@ -51,7 +52,7 @@ export default function initEyeDropper() {
       eyedropper.style.display = 'none';
     });
 
-    const pickers = document.querySelectorAll('#fg-picker, #bg-picker');
+    const pickers = document.querySelectorAll('input[type="text"]');
     pickers.forEach((input) => {
       input.classList.add('eyedropper-not-supported');
     });

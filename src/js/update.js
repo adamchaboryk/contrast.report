@@ -1,24 +1,39 @@
 import * as Sa11y from 'sa11y/src/js/utils/contrast-utils.js';
-import { store } from 'sa11y/src/js/utils/utils.js';
+import * as Utils from './utils.js';
+
+function togglePassFail(ratio) {
+  const thresholds = {
+    graphics: 3,
+    normal: 4.5,
+    large: 3,
+  };
+
+  Object.entries(thresholds).forEach(([id, threshold]) => {
+    const root = window.documentPictureInPicture?.window?.document || document;
+    const element = root.getElementById(id);
+    if (element) {
+      const isPass = ratio >= threshold;
+      element.classList.toggle('pass', isPass);
+      element.classList.toggle('fail', !isPass);
+      element.textContent = isPass ? 'Good' : 'Fail';
+    }
+  });
+}
 
 // Calculate contrast.
 export function updateRatio() {
-  const fgColor = store.getItem('foreground');
-  const bgColor = store.getItem('background');
+  const { fg, bg } = Utils.getDefaultValues();
 
   // Calculate contrast with Sa11y.
   const contrast = Sa11y.calculateContrast(
-    Sa11y.convertToRGBA(fgColor),
-    Sa11y.convertToRGBA(bgColor),
+    Sa11y.convertToRGBA(fg),
+    Sa11y.convertToRGBA(bg),
   );
-
-  const permalinkBtn = document.getElementById('permalink');
-
-  // && chroma.valid(fgColor) && chroma.valid(bgColor)
-  // To-do: use chroma valid for when color does not start with color-mix();
 
   if (contrast !== null) {
     if (!Number.isNaN(contrast.ratio) && Number.isFinite(contrast.ratio)) {
+      console.log(contrast.ratio);
+
       const formattedRatio = Number.isInteger(contrast.ratio)
         ? contrast.ratio.toFixed(0)
         : contrast.ratio.toFixed(2);
@@ -29,39 +44,41 @@ export function updateRatio() {
       ).getElementById('ratio-container');
       if (ratioContainer) ratioContainer.innerHTML = ratioHtml;
 
-      // Show permalink button if valid colour.
-      permalinkBtn.removeAttribute('hidden');
-
-      // Store colour in localstorage.
-      store.setItem('foreground', fgColor);
-      store.setItem('background', bgColor);
+      // Toggle pass/fail badges.
+      togglePassFail(contrast.ratio);
     }
   } else {
     document.getElementById('ratio-container').innerHTML = '';
-    // reverseBtn.toggleAttribute('hidden', true);
-    permalinkBtn.toggleAttribute('hidden', true);
   }
-
-  // Clear URL params when user starts interacting with the picker.
-  window.history.replaceState(null, '', window.location.pathname);
 }
 
 // Update preview.
 export function updatePreview() {
-  const fgColor = store.getItem('foreground');
-  const bgColor = store.getItem('background');
+  const fgColor = Utils.store.getItem('foreground');
+  const bgColor = Utils.store.getItem('background');
 
-  const elements = ['normal', 'large', 'icons', 'preview'];
-  elements.forEach((id) => {
-    const element = document.getElementById(id);
-    element.style.color = fgColor;
-    element.style.backgroundColor = bgColor;
+  // Preview IDs.
+  const elements = [
+    'normal-preview',
+    'large-preview',
+    'graphics-preview',
+    'mini-preview',
+  ];
+
+  // Update tab & pip document.
+  const roots = [
+    document,
+    window.documentPictureInPicture?.window?.document,
+  ].filter(Boolean);
+
+  // For each root, modify preview area colours.
+  roots.forEach((root) => {
+    elements.forEach((id) => {
+      const element = root.getElementById(id);
+      if (element) {
+        element.style.color = fgColor;
+        element.style.backgroundColor = bgColor;
+      }
+    });
   });
-
-  const pipPreview =
-    window.documentPictureInPicture.window?.document.getElementById('preview');
-  if (pipPreview) {
-    pipPreview.style.color = fgColor;
-    pipPreview.style.backgroundColor = bgColor;
-  }
 }

@@ -1,5 +1,8 @@
+/* eslint-disable no-undef */
+import { store } from './utils.js';
+
 // Toggle PIP mode.
-export default function pip() {
+export default function initPip() {
   const videoPlayer = document.getElementById('pip-only');
   const playerContainer = document.getElementById('pip-container');
 
@@ -20,8 +23,8 @@ export default function pip() {
     // Handle the case of the pip window being closed using the browser X button.
     pipWindow.addEventListener('pagehide', () => {
       playerContainer.append(videoPlayer);
-      const togglePipButton = document.querySelector('#pip-toggle');
-      togglePipButton.style.display = 'block';
+      const togglePipButton = document.querySelector('#pip-btn');
+      togglePipButton.style.display = 'inline-flex';
     });
 
     // Copy style sheets.
@@ -49,20 +52,24 @@ export default function pip() {
 
   /* If PIP is supported */
   if ('documentPictureInPicture' in window) {
-    const togglePipButton = document.createElement('button');
-    togglePipButton.type = 'button';
-    togglePipButton.id = 'pip-toggle';
-    togglePipButton.textContent = 'Mini mode';
-    togglePipButton.addEventListener('click', togglePictureInPicture, false);
-    document.getElementById('controlbar').appendChild(togglePipButton);
+    const pipButton = document.getElementById('pip-btn');
+    pipButton.style.display = 'inline-flex';
+    pipButton.addEventListener('click', togglePictureInPicture, false);
 
     // PIP IS ACTIVE!
-    // eslint-disable-next-line no-undef
     documentPictureInPicture.addEventListener('enter', () => {
-      togglePipButton.style.display = 'none';
+      pipButton.style.display = 'none';
       console.log('Video player has entered the pip window');
       videoPlayer.removeAttribute('hidden');
-      // to-do show mini contrast controls
+
+      // Set theme within PiP
+      const picInPictureDoc = window.documentPictureInPicture?.window?.document;
+      if (picInPictureDoc) {
+        picInPictureDoc.documentElement.setAttribute(
+          'data-theme',
+          store.getItem('theme'),
+        );
+      }
     });
   }
 }

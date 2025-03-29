@@ -39,3 +39,46 @@ export function convertShortHex(hex) {
   }
   return hex;
 }
+
+/**
+ * A utility object for handling storage operations using localStorage and sessionStorage.
+ * @param  {String} key
+ * @param  {string} value
+ * @return {String} Return key.
+ */
+export const store = {
+  getItem(key) {
+    try {
+      if (localStorage.getItem(key) === null) {
+        return sessionStorage.getItem(key);
+      }
+      return localStorage.getItem(key);
+    } catch (error) {
+      // Cookies totally disabled.
+      return false;
+    }
+  },
+  setItem(key, value) {
+    try {
+      localStorage.setItem(key, value);
+    } catch (error) {
+      sessionStorage.setItem(key, value);
+    }
+    return true;
+  },
+  removeItem(key) {
+    try {
+      localStorage.removeItem(key);
+    } catch (error) {
+      sessionStorage.removeItem(key);
+    }
+    return true;
+  },
+};
+
+export const getDefaultValues = () => {
+  const params = new URLSearchParams(window.location.search);
+  const fg = params.get('fg') || store.getItem('foreground') || '#ffffff';
+  const bg = params.get('bg') || store.getItem('background') || '#000000';
+  return { fg, bg };
+};
