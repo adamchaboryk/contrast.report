@@ -4,11 +4,12 @@ import '@oddbird/popover-polyfill';
 import chroma from 'chroma-js';
 import * as Utils from './utils.js';
 import { updateRatio, updatePreview } from './update.js';
-import initPip from './pip.js';
+import initPictureInPicture from './pip.js';
 import initEyeDropper from './eyedropper.js';
 import initPermalink from './urlParams.js';
 import initToolbar from './toolbar.js';
 import initTheme from './theme.js';
+import initUnsupported from './unsupported.js';
 import * as Icon from './icons.js';
 
 const { fg, bg } = Utils.getDefaultValues();
@@ -16,88 +17,83 @@ const { fg, bg } = Utils.getDefaultValues();
 // Render UI
 document.querySelector('#app').innerHTML = `
   <main>
-    <h1>Colour Contrast Checker</h1>
+    <h1>Contrast Checker</h1>
     <div id="toolbar">
       <button type="button">WCAG AA</button>
       <button type="button" id="reverse">Reverse ${Icon.reverse}</button>
       <button type="button" id="permalink">Permalink ${Icon.link}</button>
-      <button type="button" id="convert">HEX</button>
-      <button type="button" id="pip-btn">Pop out ${Icon.pip}</button>
+      <button type="button" id="theme">Theme</button>
+      <button type="button" id="pip-btn" hidden>Pop out ${Icon.pip}</button>
     </div>
 
     <div id="pip-container">
       <div id="pip-only">
-        <div class="tri-column">
-          <div class="column-1">
-            <section aria-labelledby="foreground" id="fg-group">
-              <label for="fg-input" id="foreground">Foreground</label>
-              <div class="color-picker-field">
-                <input id="fg-picker" type="color" aria-label="Foreground colour picker" value="${fg}">
-                <input type="text" id="fg-input" value="${fg}" autocomplete="off">
-                <button id="fg-eyedropper" type="button">${Icon.eyedropper}</button>
-              </div>
-            </section>
-            <section aria-labelledby="background">
-              <label for="bg-input">Background</label>
-              <div class="color-picker-field">
-                <input id="bg-picker" type="color" aria-label="Background colour picker" value="${bg}">
-                <input type="text" id="bg-input" value="${bg}" autocomplete="off">
-                <button id="bg-eyedropper" type="button">${Icon.eyedropper}</button>
-              </div>
-            </section>
-          </div>
-          <div class="column-2">
-            <section id="results" aria-label="Results">
-              <div class="result">
-                <div id="ratio-label">Ratio</div>
-                <div>
-                  <div id="ratio-container"></div>
-                  <span id="mini-preview" aria-hidden="true" style="color: ${fg}; background-color: ${bg}">WCAG AA</span>
-                </div>
-              </div>
-              <div class="result">
-                <div>Normal text</div>
-                <div id="normal" class="badge"></div>
-              </div>
-              <div class="result">
-                <div>Large text</div>
-                <div id="large" class="badge"></div>
-              </div>
-              <div class="result">
-                <div>Graphics</div>
-                <div id="graphics" class="badge"></div>
-              </div>
-            </section>
-          </div>
+        <div class="dual-column">
+          <section aria-labelledby="foreground" id="fg-group">
+            <label for="fg-input" id="foreground">Foreground</label>
+            <div class="color-picker-field">
+              <input id="fg-picker" type="color" aria-label="Foreground colour picker" value="${fg}">
+              <input type="text" id="fg-input" value="${fg}" autocomplete="off">
+              <button id="fg-eyedropper" type="button">${Icon.eyedropper}</button>
+            </div>
+          </section>
+          <section aria-labelledby="background">
+            <label for="bg-input">Background</label>
+            <div class="color-picker-field">
+              <input id="bg-picker" type="color" aria-label="Background colour picker" value="${bg}">
+              <input type="text" id="bg-input" value="${bg}" autocomplete="off">
+              <button id="bg-eyedropper" type="button">${Icon.eyedropper}</button>
+            </div>
+          </section>
         </div>
+        <section id="results" aria-label="Results" class="show-in-pip-only">
+          <div class="result">
+            <div id="ratio-label">Ratio</div>
+            <div>
+              <div id="ratio-container"></div>
+              <span id="mini-preview" aria-hidden="true" style="color: ${fg}; background-color: ${bg}">WCAG AA</span>
+            </div>
+          </div>
+          <div class="result">
+            <div>Normal text</div>
+            <div id="normal" class="badge"></div>
+          </div>
+          <div class="result">
+            <div>Large text</div>
+            <div id="large" class="badge"></div>
+          </div>
+          <div class="result">
+            <div>Graphics</div>
+            <div id="graphics" class="badge"></div>
+          </div>
+        </section>
       </div>
     </div>
 
-    <section aria-labelledby="preview" id="preview-area" class="tri-column">
-      <h2 id="preview" class="visually-hidden">Preview</h2>
-      <div class="column-1">
-        <h3>Normal text <span id="low-body-text"></span></h3>
-        <div id="normal-preview" class="card" style="color: ${fg}; background-color: ${bg}" contenteditable="true">
-          <p>The <em>quick</em> brown fox <strong>jumps</strong> over the lazy dog.</p>
+    <section aria-labelledby="preview" id="preview-area">
+      <h2 id="preview">Preview</h2>
+      <div class="tri-column">
+        <div class="column-1">
+          <h3>Normal text <span id="low-body-text"></span></h3>
+          <div id="normal-preview" class="card" style="color: ${fg}; background-color: ${bg}" contenteditable="true">
+            <p>The <em>quick</em> brown fox <strong>jumps</strong> over the lazy dog.</p>
+          </div>
         </div>
-      </div>
-      <div class="column-2">
-        <h3>Large text</h3>
-        <div id="large-preview" class="card" style="color: ${fg}; background-color: ${bg}" contenteditable="true">
-          <p>The <em>quick</em> brown fox <strong>jumps</strong> over the lazy dog.</p>
+        <div class="column-2">
+          <h3>Large text</h3>
+          <div id="large-preview" class="card" style="color: ${fg}; background-color: ${bg}" contenteditable="true">
+            <p>The <em>quick</em> brown fox <strong>jumps</strong> over the lazy dog.</p>
+          </div>
         </div>
-      </div>
-      <div class="column-3">
-        <h3>Graphics</h3>
-        <div id="graphics-preview" class="card" style="color: ${fg}; background-color: ${bg}">
-          ${Icon.bell + Icon.check + Icon.drop + Icon.cloud + Icon.trash + Icon.star}
+        <div class="column-3">
+          <h3>Graphics</h3>
+          <div id="graphics-preview" class="card" style="color: ${fg}; background-color: ${bg}">
+            ${Icon.bell + Icon.check + Icon.drop + Icon.cloud + Icon.trash + Icon.star}
+          </div>
         </div>
       </div>
     </section>
   </main>
-  <footer>
-    <button type="button" id="theme">Theme</button>
-  </footer>
 `;
 
 // Elements.
@@ -148,6 +144,9 @@ bgInput.addEventListener('input', () => {
 initEyeDropper();
 initPermalink();
 initToolbar();
-initPip();
+initPictureInPicture();
 initTheme();
+initUnsupported();
+
+// Update ratio on page load.
 updateRatio();

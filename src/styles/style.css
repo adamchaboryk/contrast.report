@@ -31,17 +31,12 @@
   }
 }
 
-.sr-only {
-  position: absolute;
-  display: block;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(1px, 1px, 1px, 1px);
-  white-space: nowrap;
-  border: 0;
-  clip-path: inset(50%);
+#unsupported-warning {
+  color: black;
+  background: lightpink;
+  padding: 20px;
+  width: 600px;
+  border: 2px solid lightcoral;
 }
 
 body {
@@ -54,7 +49,7 @@ body {
 main,
 footer,
 aside {
-  padding: 50px;
+  padding: 10px 50px;
 }
 
 .flex {
@@ -67,36 +62,45 @@ aside {
 }
 
 #toolbar {
-  padding-top: 15px;
-  padding-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 0;
+}
 
-  button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--background);
-    border-radius: 4px;
-    padding: 6px 10px;
-    border: 0;
-    color: var(--ui-border);
-    font-weight: 600;
-    margin-inline-end: 5px;
-    border: 2px solid var(--ui-border);
-  }
+#toolbar button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  font-size: 16px;
+  color: var(--ui-border);
+  font-weight: 600;
+  border: 2px solid var(--ui-border);
+  background-color: var(--background);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  min-width: 100px;
+  height: 40px;
+  white-space: nowrap;
 
-  button:hover,
-  button:focus-visible {
+  &:hover,
+  &:focus {
     background: var(--ui-hover);
   }
+}
 
-  button>* {
-    display: flex;
-    align-items: center;
-  }
+#toolbar button svg {
+  margin-left: 8px;
+  flex-shrink: 0;
+}
 
-  button>svg {
-    margin-inline-start: 5px;
-    fill: var(--ui-border);
+@media (max-width: 480px) {
+  #toolbar {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -106,7 +110,7 @@ label {
 }
 
 h1 {
-  font-size: 1.5rem;
+  font-size: 2rem;
   line-height: 1.1;
   font-weight: bold;
   margin-bottom: 10px;
@@ -117,17 +121,25 @@ h1 {
   display: flex;
 }
 
+.dual-column,
 .tri-column {
   display: flex;
+}
+
+.dual-column section {
+  margin-inline-end: 30px;
 }
 
 .column-1,
 .column-2,
 .column-3 {
   min-width: 350px;
+  max-width: 350px;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 700px) {
+
+  .dual-column,
   .tri-column {
     flex-direction: column;
   }
@@ -181,8 +193,8 @@ input[type="text"] {
 /* Color input */
 #fg-eyedropper,
 #bg-eyedropper {
-  height: 44px;
   width: 44px;
+  height: 44px;
   min-width: 44px;
   max-width: 44px;
   padding: 0;
@@ -211,17 +223,12 @@ input[type="text"] {
   border-right: 2px solid black !important;
 }
 
-input[type="color"]:hover {
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
-  /* Dark inset shadow on hover */
-}
-
 input[type="color"] {
-  cursor: pointer;
+  width: 44px;
   height: 44px;
+  cursor: pointer;
   min-width: 44px;
   min-height: 44px;
-  width: 44px;
   padding: 0;
   border: 2px solid var(--ui-border);
   border-top-left-radius: 5px;
@@ -264,12 +271,6 @@ input[type=color i]::-moz-color-swatch {
   border-radius: 5px;
 }
 
-#mini-preview svg {
-  display: inline-block;
-  width: 15px;
-  height: 15px;
-}
-
 .divider {
   margin-inline-start: 2px;
   margin-inline-end: 2px;
@@ -282,15 +283,16 @@ input[type=color i]::-moz-color-swatch {
   margin-bottom: 20px;
   border-radius: 4px;
   box-shadow: 0 0 20px 0 rgb(0 0 0 / 15%);
-  height: 90px;
-  max-width: 350px;
+  min-height: 170px;
+  max-height: 200px;
+  overflow: scroll;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 #preview-area {
-  padding-top: 40px;
+  padding-top: 20px;
 }
 
 #normal-preview {
@@ -327,10 +329,15 @@ input[type=color i]::-moz-color-swatch {
 .badge {
   font-size: calc(var(--font-size) - 0.1rem);
   font-weight: 700;
-  display: inline;
+  display: inline-flex;
+  align-items: center;
   padding: 3px 5px;
   border-radius: 6px;
   line-height: 1;
+
+  svg {
+    margin-inline-start: 5px;
+  }
 }
 
 .pass {
@@ -345,7 +352,11 @@ input[type=color i]::-moz-color-swatch {
 
 /* Utilities */
 
-.visually-hidden {
+.unsupported {
+  display: none !important;
+}
+
+.sr-only {
   position: absolute;
   display: block;
   width: 1px;
@@ -363,11 +374,15 @@ input[type=color i]::-moz-color-swatch {
   display: inline-block;
 }
 
-#pip-btn {
+.show-in-pip-only {
   display: none;
 }
 
 @media (display-mode: picture-in-picture) {
+
+  .show-in-pip-only {
+    display: block;
+  }
 
   #pip-only {
     padding: 10px 15px 15px 15px;
@@ -398,5 +413,10 @@ input[type=color i]::-moz-color-swatch {
 
   input[type="text"] {
     max-width: 160px;
+  }
+
+  .column-1,
+  .column-2 {
+    padding-right: 0;
   }
 }

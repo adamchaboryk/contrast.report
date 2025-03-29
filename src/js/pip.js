@@ -2,27 +2,27 @@
 import { store } from './utils.js';
 
 // Toggle PIP mode.
-export default function initPip() {
-  const videoPlayer = document.getElementById('pip-only');
-  const playerContainer = document.getElementById('pip-container');
+export default function initPictureInPicture() {
+  const pipContent = document.getElementById('pip-only');
+  const pipContainer = document.getElementById('pip-container');
 
   async function togglePictureInPicture() {
     // Early return if there's already a Picture-in-Picture window open.
     if (window.documentPictureInPicture.window) {
-      playerContainer.append(videoPlayer);
+      pipContainer.append(pipContent);
       window.documentPictureInPicture.window.close();
       return;
     }
 
     // Open a Picture-in-Picture window.
     const pipWindow = await window.documentPictureInPicture.requestWindow({
-      width: 300,
+      width: 280,
       height: 300,
     });
 
     // Handle the case of the pip window being closed using the browser X button.
     pipWindow.addEventListener('pagehide', () => {
-      playerContainer.append(videoPlayer);
+      pipContainer.append(pipContent);
       const togglePipButton = document.querySelector('#pip-btn');
       togglePipButton.style.display = 'inline-flex';
     });
@@ -47,7 +47,7 @@ export default function initPip() {
     });
 
     // Move the player to the Picture-in-Picture window.
-    pipWindow.document.body.append(videoPlayer);
+    pipWindow.document.body.append(pipContent);
   }
 
   /* If PIP is supported */
@@ -60,7 +60,7 @@ export default function initPip() {
     documentPictureInPicture.addEventListener('enter', () => {
       pipButton.style.display = 'none';
       console.log('Video player has entered the pip window');
-      videoPlayer.removeAttribute('hidden');
+      pipContent.removeAttribute('hidden');
 
       // Set theme within PiP
       const picInPictureDoc = window.documentPictureInPicture?.window?.document;

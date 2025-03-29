@@ -15,7 +15,7 @@ function togglePassFail(ratio) {
       const isPass = ratio >= threshold;
       element.classList.toggle('pass', isPass);
       element.classList.toggle('fail', !isPass);
-      element.textContent = isPass ? 'Good' : 'Fail';
+      element.textContent = isPass ? 'Good' : `Fail`;
     }
   });
 }
@@ -32,8 +32,6 @@ export function updateRatio() {
 
   if (contrast !== null) {
     if (!Number.isNaN(contrast.ratio) && Number.isFinite(contrast.ratio)) {
-      console.log(contrast.ratio);
-
       const formattedRatio = Number.isInteger(contrast.ratio)
         ? contrast.ratio.toFixed(0)
         : contrast.ratio.toFixed(2);
@@ -46,6 +44,20 @@ export function updateRatio() {
 
       // Toggle pass/fail badges.
       togglePassFail(contrast.ratio);
+
+      const textPreviews = document.querySelectorAll(
+        '#normal-preview, #large-preview',
+      );
+      textPreviews.forEach((preview) => {
+        const text = preview;
+        const isLargeText = preview.id === 'large-preview';
+        const textType = isLargeText ? 'large' : 'normal';
+        const contrastThreshold = isLargeText ? 3 : 4.5;
+        const contrastStatus =
+          formattedRatio >= contrastThreshold ? 'good' : 'low';
+
+        text.innerHTML = `The colour (${fg}) has a ${contrastStatus} contrast ratio of ${formattedRatio}:1 with the background (${bg}) for ${textType} size text.`;
+      });
     }
   } else {
     document.getElementById('ratio-container').innerHTML = '';
