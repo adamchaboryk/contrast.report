@@ -1,10 +1,9 @@
 import * as Sa11y from 'sa11y/src/js/utils/contrast-utils.js';
-import chroma from 'chroma-js';
-import { getActiveRoot } from './pip.js';
-import * as Utils from './utils.js';
+import { getActiveRoot } from './components/picture-in-picture.js';
+import * as Utils from './utils/utils.js';
 
 // Toggle pass/fail badges.
-const togglePassFail = (ratio) => {
+function togglePassFail(ratio) {
   const thresholds = {
     graphics: 3,
     normal: 4.5,
@@ -28,10 +27,10 @@ const togglePassFail = (ratio) => {
       ratioContainer.classList.toggle('fail', ratio < 3);
     });
   });
-};
+}
 
 // Calculate contrast and update contrast ratios.
-export function updateRatio() {
+function updateRatio() {
   const { fg, bg } = Utils.getDefaultValues();
 
   // Calculate contrast with Sa11y.
@@ -90,14 +89,14 @@ export function updateRatio() {
         const contrastStatus =
           formattedRatio >= contrastThreshold ? 'good' : 'low';
 
-        text.innerHTML = `The colour (${fg}) has a ${contrastStatus} contrast ratio of ${formattedRatio}:1 with the background (${bg}) for ${textType} size text.`;
+        text.innerHTML = `${fg} has a ${contrastStatus} contrast ratio of ${formattedRatio}:1 with the background (${bg}) for ${textType} size text.`;
       });
     }
   }
 }
 
 // Update preview areas.
-export function updatePreview() {
+function updatePreview() {
   const fgColor = Utils.store.getItem('foreground');
   const bgColor = Utils.store.getItem('background');
 
@@ -121,7 +120,25 @@ export function updatePreview() {
   });
 }
 
+function validateColor(color) {
+  let validColor = color;
+  validColor = Sa11y.convertToRGBA(color);
+  validColor = Sa11y.getHex(validColor);
+  return validColor;
+}
+
+/**
+ * Synchronize inputs and save colours to local storage.
+ * @param {String} foreground colour.
+ * @param {String} background colour.
+ */
 export function synchronizeColors(foreground, background) {
+  let validFg = foreground;
+  let validBg = background;
+
+  if (foreground) validFg = validateColor(foreground);
+  if (background) validBg = validateColor(background);
+
   const roots = getActiveRoot();
   const rootsArray = Array.isArray(roots) ? roots : [roots];
   rootsArray.forEach((root) => {
@@ -129,35 +146,29 @@ export function synchronizeColors(foreground, background) {
     const bgInput = root.getElementById('bg-input');
     const fgPicker = root.getElementById('fg-picker');
     const bgPicker = root.getElementById('bg-picker');
-    if (fgInput) fgInput.value = foreground;
-    if (bgInput) bgInput.value = background;
-    if (fgPicker) fgPicker.value = foreground;
-    if (bgPicker) bgPicker.value = background;
+
+    if (fgInput && foreground) fgInput.value = foreground;
+    if (bgInput && background) bgInput.value = background;
+
+    // We need validated hexcode for colour inputs.
+    if (fgPicker && foreground) fgPicker.value = validFg;
+    if (bgPicker && background) bgPicker.value = validBg;
   });
+
+  // Update the localStorage values.
+  if (foreground) Utils.store.setItem('foreground', validFg);
+  if (background) Utils.store.setItem('background', validBg);
+
+  // Update ratio & preview areas once synchronized.
+  updatePreview();
+  updateRatio();
+
+  // Clear URL params when user starts interacting with the picker.
+  window.history.replaceState(null, '', window.location.pathname);
 }
 
 export function initEventListeners() {
-  // synchronize colour value across all inputs and update ratio and preview.
-  const updateColor = (inputElement, pickerElement, colorValue, colorType) => {
-    const inputEl = inputElement;
-    const pickerEl = pickerElement;
-    inputEl.value = colorValue;
-
-    // && chroma.valid(fgColor) && chroma.valid(bgColor)
-    // To-do: use chroma valid for when color does not start with color-mix();
-
-    // Returns valid 6 digit hex for native color input.
-    pickerEl.value = chroma(colorValue);
-    // Saves validated colour.
-    Utils.store.setItem(colorType, chroma(colorValue));
-    updateRatio();
-    updatePreview();
-
-    // Clear URL params when user starts interacting with the picker.
-    window.history.replaceState(null, '', window.location.pathname);
-  };
-
-  // Elements.
+  // Query pickers and inputs.
   const fgInput = document.getElementById('fg-input');
   const bgInput = document.getElementById('bg-input');
   const fgPicker = document.getElementById('fg-picker');
@@ -166,18 +177,21 @@ export function initEventListeners() {
   // Register event listeners.
   fgPicker.addEventListener('input', () => {
     const fgColor = Utils.normalizeColorInput(fgPicker.value);
-    updateColor(fgInput, fgPicker, fgColor, 'foreground');
+    synchronizeColors(fgColor, false);
   });
   fgInput.addEventListener('input', () => {
     const fgColor = Utils.normalizeColorInput(fgInput.value);
-    updateColor(fgInput, fgPicker, fgColor, 'foreground');
+    synchronizeColors(fgColor, false);
   });
   bgPicker.addEventListener('input', () => {
     const bgColor = Utils.normalizeColorInput(bgPicker.value);
-    updateColor(bgInput, bgPicker, bgColor, 'background');
+    synchronizeColors(false, bgColor);
   });
   bgInput.addEventListener('input', () => {
     const bgColor = Utils.normalizeColorInput(bgInput.value);
-    updateColor(bgInput, bgPicker, bgColor, 'background');
+    synchronizeColors(false, bgColor);
   });
+
+  // Update ratio once everything is initialized.
+  updateRatio();
 }

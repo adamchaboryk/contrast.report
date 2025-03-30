@@ -1,16 +1,20 @@
 import '../styles/reset.css';
 import '../styles/style.css';
-import * as Utils from './utils.js';
-import * as Icon from './icons.js';
-import { updateRatio, initEventListeners } from './update.js';
-import initPictureInPicture from './pip.js';
-import initEyeDropper from './eyedropper.js';
-import initPermalink from './urlParams.js';
-import initToolbar from './toolbar.js';
-import initTheme from './theme.js';
-import initUnsupported from './unsupported.js';
-import initAutoFix from './autofix.js';
 
+// Utils
+import * as Utils from './utils/utils.js';
+import * as Icon from './utils/icons.js';
+import initUnsupported from './utils/unsupported.js';
+
+// Components/features
+import initPictureInPicture from './components/picture-in-picture.js';
+import initEyeDropper from './components/eyedropper.js';
+import initToolbar from './components/toolbar.js';
+import initAutoFix from './components/autofix.js';
+
+import { initEventListeners } from './update.js';
+
+// Get defualt values.
 const { fg, bg } = Utils.getDefaultValues();
 
 // Render UI
@@ -20,30 +24,30 @@ document.querySelector('#app').innerHTML = `
     <h1>Contrast Checker</h1>
     <div id="pip-container">
       <div id="pip-only">
-        <section class="dual-column" aria-labelledby="color-pickers">
+        <section class="flex-container" aria-labelledby="color-pickers">
           <h2 class="sr-only" id="color-pickers">Colours</h2>
-          <div id="fg-group">
+          <div class="flex-item">
             <label for="fg-input" id="foreground"><h3>Foreground</h3></label>
             <div class="color-picker-field">
               <input id="fg-picker" type="color" aria-label="Foreground colour picker" value="${fg}">
-              <input type="text" id="fg-input" value="${fg}" autocomplete="off">
+              <input type="text" id="fg-input" value="${fg}" autocomplete="off" spellcheck="false">
               <button id="fg-eyedropper" type="button" aria-label="Foreground eyedropper">
                 ${Icon.eyedropper}
               </button>
             </div>
             <div id="fg-color-name"></div>
           </div>
-          <div id="bg-group">
+          <div class="flex-item">
             <label for="bg-input"><h3>Background</h3></label>
             <div class="color-picker-field">
               <input id="bg-picker" type="color" aria-label="Background colour picker" value="${bg}">
-              <input type="text" id="bg-input" value="${bg}" autocomplete="off">
+              <input type="text" id="bg-input" value="${bg}" autocomplete="off" spellcheck="false">
               <button id="bg-eyedropper" type="button" aria-label="Background eyedropper">
                 ${Icon.eyedropper}
               </button>
             </div>
           </div>
-          <div id="large-ratio">
+          <div id="large-ratio" class="flex-item">
             <h3>Ratio</h3>
             <div class="get-ratio badge"></div>
           </div>
@@ -120,8 +124,8 @@ document.querySelector('#app').innerHTML = `
         <button type="button">WCAG AA</button>
         <button type="button" id="reverse">Reverse ${Icon.reverse}</button>
         <button type="button" id="permalink">Permalink ${Icon.link}</button>
-        <button type="button">Save swatch</button>
-        <button type="button" id="theme">Theme</button>
+        <button type="button" id="save">Save ${Icon.drop}</button>
+        <button type="button" id="theme">Theme ${Icon.moon}</button>
         <button type="button" id="pip-btn" hidden>Pop out ${Icon.pip}</button>
       </div>
     </section>
@@ -130,26 +134,22 @@ document.querySelector('#app').innerHTML = `
       <h2 id="saved-colors">Saved colours</h2>
     </section>
   </main>
+
   <footer>
     <details>
-      <summary><h2>About</h2></summary>
+      <summary><h2>About this website</h2></summary>
       <h3>Privacy</h3>
       <p>No personal data is ever collected using this website. This website uses your browser’s web storage to remember recently used colour combination. This website uses privacy-oriented analytics. The analytics do not track IP addresses, fingerprints or cookies.</p>
-      <h3>Acknowledgements</h3>
-      <p>Crafted by <a href="https://chaboryk.xyz">Adam Chaboryk.</a>
+      <h3>Open source</h3>
+      <p>Crafted by <a href="https://chaboryk.xyz">Adam Chaboryk.</a> View the source code on GitHub.</p>
     </details>
   </footer>
 `;
 
-// Update ratio on page load.
-updateRatio();
-
-// Initialize tools
+// Initialize tools.
 initUnsupported();
 initEyeDropper();
-initPermalink();
-initToolbar();
 initPictureInPicture();
-initTheme();
+initToolbar();
 initAutoFix();
 initEventListeners();

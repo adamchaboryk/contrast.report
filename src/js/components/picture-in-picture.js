@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { store } from './utils.js';
+import { store } from '../utils/utils.js';
 
 /* This is a mini utility function that determines which window we are in. */
 export function getActiveRoot() {

@@ -79,8 +79,8 @@ export const store = {
 export const getDefaultValues = () => {
   const params = new URLSearchParams(window.location.search);
   if (!store.getItem('foreground') || !store.getItem('background')) {
-    store.setItem('foreground', '#ffffff');
-    store.setItem('background', '#000000');
+    store.setItem('foreground', '#0061d4');
+    store.setItem('background', '#f4f8ff');
   }
 
   const fg = params.get('fg') || store.getItem('foreground');

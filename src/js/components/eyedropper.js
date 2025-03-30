@@ -1,10 +1,9 @@
-import { store } from 'sa11y/src/js/utils/utils';
-import { updateRatio, updatePreview } from './update.js';
+/* eslint-disable no-undef */
+import { synchronizeColors } from '../update.js';
 
 export default function initEyeDropper() {
   // Check if the EyeDropper API is available
   if (window.EyeDropper) {
-    // eslint-disable-next-line no-undef
     const eyeDropper = new EyeDropper();
     document
       .getElementById('fg-eyedropper')
@@ -16,9 +15,7 @@ export default function initEyeDropper() {
           root.getElementById('fg-picker').value = result.sRGBHex;
           root.getElementById('fg-input').value = result.sRGBHex;
           root.getElementById('mini-preview').style.color = result.sRGBHex;
-          store.setItem('foreground', result.sRGBHex);
-          updateRatio();
-          updatePreview();
+          synchronizeColors(result.sRGBHex, false);
         } catch (err) {
           console.error('EyeDropper failed:', err);
         }
@@ -35,9 +32,7 @@ export default function initEyeDropper() {
           root.getElementById('bg-input').value = result.sRGBHex;
           root.getElementById('mini-preview').style.backgroundColor =
             result.sRGBHex;
-          store.setItem('background', result.sRGBHex);
-          updateRatio();
-          updatePreview();
+          synchronizeColors(false, result.sRGBHex);
         } catch (err) {
           console.error('EyeDropper failed:', err);
         }
