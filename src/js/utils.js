@@ -78,7 +78,12 @@ export const store = {
 
 export const getDefaultValues = () => {
   const params = new URLSearchParams(window.location.search);
-  const fg = params.get('fg') || store.getItem('foreground') || '#ffffff';
-  const bg = params.get('bg') || store.getItem('background') || '#000000';
+  if (!store.getItem('foreground') || !store.getItem('background')) {
+    store.setItem('foreground', '#ffffff');
+    store.setItem('background', '#000000');
+  }
+
+  const fg = params.get('fg') || store.getItem('foreground');
+  const bg = params.get('bg') || store.getItem('background');
   return { fg, bg };
 };

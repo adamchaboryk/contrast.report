@@ -1,6 +1,13 @@
 /* eslint-disable no-undef */
 import { store } from './utils.js';
 
+/* This is a mini utility function that determines which window we are in. */
+export function getActiveRoot() {
+  return [document, window.documentPictureInPicture?.window?.document].filter(
+    Boolean,
+  );
+}
+
 // Toggle PIP mode.
 export default function initPictureInPicture() {
   const pipContent = document.getElementById('pip-only');
@@ -17,7 +24,7 @@ export default function initPictureInPicture() {
     // Open a Picture-in-Picture window.
     const pipWindow = await window.documentPictureInPicture.requestWindow({
       width: 280,
-      height: 300,
+      height: 305,
     });
 
     // Handle the case of the pip window being closed using the browser X button.

@@ -19,7 +19,7 @@
       }
     ],
     "block-no-empty": null,
-    "unit-allowed-list": ["em", "rem", "s", "px", "%", "fr"],
+    "unit-allowed-list": ["em", "rem", "s", "px", "%", "fr", "ch"],
     "no-descending-specificity": null
   }
 }
