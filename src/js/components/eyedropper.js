@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { synchronizeColors } from '../update.js';
+import { synchronizeColors } from './contrast.js';
 
 export default function initEyeDropper() {
   // Check if the EyeDropper API is available

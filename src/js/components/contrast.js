@@ -1,6 +1,8 @@
 import * as Sa11y from 'sa11y/src/js/utils/contrast-utils.js';
-import { getActiveRoot } from './components/picture-in-picture.js';
-import * as Utils from './utils/utils.js';
+import { getActiveRoot } from './picture-in-picture.js';
+import * as Utils from '../utils/utils.js';
+import * as Icon from '../utils/icons.js';
+import { updateSaveTextButton } from './swatches.js';
 
 // Toggle pass/fail badges.
 function togglePassFail(ratio) {
@@ -8,6 +10,8 @@ function togglePassFail(ratio) {
     graphics: 3,
     normal: 4.5,
     large: 3,
+    aaanormal: 7,
+    aaalarge: 4.5,
   };
 
   getActiveRoot().forEach((root) => {
@@ -18,7 +22,16 @@ function togglePassFail(ratio) {
         const isPass = ratio >= threshold;
         element.classList.toggle('pass', isPass);
         element.classList.toggle('fail', !isPass);
-        $el.textContent = isPass ? 'Good' : 'Low';
+
+        const aaa =
+          element.classList.contains('aaanormal') ||
+          element.classList.contains('aaalarge');
+
+        if (aaa) {
+          $el.innerHTML = isPass ? `AAA ${Icon.check}` : `AAA ${Icon.fail}`;
+        } else {
+          $el.innerHTML = isPass ? `AA ${Icon.check}` : `AA ${Icon.fail}`;
+        }
       });
     });
 
@@ -165,9 +178,12 @@ export function synchronizeColors(foreground, background) {
 
   // Clear URL params when user starts interacting with the picker.
   window.history.replaceState(null, '', window.location.pathname);
+
+  // Reset "Save" button
+  updateSaveTextButton();
 }
 
-export function initEventListeners() {
+export default function initColorInputs() {
   // Query pickers and inputs.
   const fgInput = document.getElementById('fg-input');
   const bgInput = document.getElementById('bg-input');

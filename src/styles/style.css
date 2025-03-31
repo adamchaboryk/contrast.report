@@ -9,6 +9,7 @@
   --ui-hover: #e8e8e8;
   --ui-link: #00478f;
   --ui-shadow: rgba(0, 0, 0, .15);
+  --ui-focus: rgba(0, 208, 255, .75);
 }
 
 [data-theme="dark"] {
@@ -71,10 +72,12 @@ a:not(.skip) {
   }
 }
 
-main,
-footer,
-aside {
+main {
   padding: 10px 50px;
+}
+
+footer {
+  padding: 30px 50px 60px 50px;
 }
 
 #settings,
@@ -89,6 +92,57 @@ aside {
   button svg {
     margin-inline-start: 0.4rem;
   }
+}
+
+/* Swatches */
+#save {
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+a.swatch {
+  text-decoration: none;
+  cursor: pointer;
+  padding: 5px;
+  width: 44px;
+  height: 44px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:focus::after,
+  &:hover::after {
+    opacity: 1;
+  }
+}
+
+#swatch-container {
+  list-style: none;
+  padding-inline-start: 0;
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
 }
 
 /* Button styles */
@@ -308,13 +362,13 @@ input[type=color i]::-moz-color-swatch {
 
 /* Preview area */
 .header {
-  align-items: center;
   display: flex;
   height: 35px;
-  justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  align-items: baseline;
 
   div {
+    margin-inline-start: 10px;
     display: inline-flex;
     align-items: center;
     gap: 10px;
@@ -329,10 +383,11 @@ input[type=color i]::-moz-color-swatch {
   padding: 20px;
   border-radius: 4px;
   box-shadow: 0 0 20px 0 var(--ui-shadow);
-  height: 150px;
-  overflow: hidden;
+  min-height: 150px;
+  overflow: visible;
   display: flex;
   align-items: center;
+  transition: background 0.2s;
   justify-content: center;
 }
 
@@ -341,7 +396,7 @@ section {
 }
 
 #saved-colors {
-  padding-top: 5px;
+  padding-top: 10px;
 }
 
 #normal-preview {
@@ -376,11 +431,13 @@ section {
   }
 }
 
+.aaanormal,
+.aaalarge,
 .normal,
 .large,
 .graphics,
 .badge {
-  font-size: calc(var(--font-size) - 0.1rem);
+  font-size: calc(var(--font-size) - 0.2rem);
   font-weight: 700;
   display: inline-flex;
   align-items: center;
@@ -433,22 +490,20 @@ summary {
   &::marker {
     color: var(--ui-border);
   }
+
+  &:hover,
+  &:focus-visible {
+    background: var(--ui-hover);
+  }
 }
 
 details[open]>*:last-child {
   margin-bottom: 1rem;
 }
 
-details:not([open]) {
-
-  &:hover,
-  &:focus {
-    background: var(--ui-hover);
-  }
-}
-
 /* Utilities */
 
+[hidden],
 .unsupported {
   display: none !important;
 }
@@ -484,6 +539,19 @@ details:not([open]) {
     border: 2px solid var(--ui-border);
     top: 12px;
     left: 10px;
+  }
+}
+
+/* Focus outline */
+a.skip,
+summary,
+a.swatch,
+[contenteditable],
+button,
+input {
+
+  &:focus-visible {
+    outline: solid var(--ui-focus) 5px;
   }
 }
 

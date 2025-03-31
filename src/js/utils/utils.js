@@ -31,15 +31,6 @@ export function transparentHexToSolid(hex) {
   return hex;
 }
 
-export function convertShortHex(hex) {
-  // Check if the hex code is 3 characters long and starts with a '#'
-  if (hex.length === 4 && hex[0] === '#') {
-    // Convert it to 6 characters by repeating each character
-    return `#${hex[1].repeat(2)}${hex[2].repeat(2)}${hex[3].repeat(2)}`;
-  }
-  return hex;
-}
-
 /**
  * A utility object for handling storage operations using localStorage and sessionStorage.
  * @param  {String} key
@@ -74,15 +65,45 @@ export const store = {
     }
     return true;
   },
+  setSwatch(foreground, background) {
+    try {
+      const swatches = JSON.parse(localStorage.getItem('swatches')) || [];
+      if (
+        !swatches.some(([fg, bg]) => fg === foreground && bg === background)
+      ) {
+        swatches.push([foreground, background]);
+        localStorage.setItem('swatches', JSON.stringify(swatches));
+      }
+    } catch {
+      const swatches = JSON.parse(sessionStorage.getItem('swatches')) || [];
+      if (
+        !swatches.some(([fg, bg]) => fg === foreground && bg === background)
+      ) {
+        swatches.push([foreground, background]);
+        sessionStorage.setItem('swatches', JSON.stringify(swatches));
+      }
+    }
+  },
 };
 
 export const getDefaultValues = () => {
-  const params = new URLSearchParams(window.location.search);
+  // If no local storage entries, use the following default.
   if (!store.getItem('foreground') || !store.getItem('background')) {
     store.setItem('foreground', '#0061d4');
     store.setItem('background', '#f4f8ff');
   }
 
+  // If you landed on the page via URL params, update local storage.
+  const params = new URLSearchParams(window.location.search);
+  if (params.length) {
+    store.setItem('foreground', params.get('fg'));
+    store.setItem('background', params.get('bg'));
+  }
+
+  // Default WCAG level.
+  if (!store.getItem('level')) store.setItem('level', 'aa');
+
+  // Default URL params.
   const fg = params.get('fg') || store.getItem('foreground');
   const bg = params.get('bg') || store.getItem('background');
   return { fg, bg };

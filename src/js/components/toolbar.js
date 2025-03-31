@@ -1,5 +1,6 @@
 import * as Utils from '../utils/utils.js';
-import { synchronizeColors } from '../update.js';
+import { getActiveRoot } from './picture-in-picture.js';
+import { synchronizeColors } from './contrast.js';
 
 export default function initToolbar() {
   /**
@@ -90,4 +91,29 @@ export default function initToolbar() {
     const preferredTheme = currentTheme === 'dark' ? 'light' : 'dark';
     storeTheme(preferredTheme);
   };
+
+  /**
+   * Toggle: WCAG Level
+   */
+  const level = document.getElementById('level');
+  level.addEventListener('click', () => {
+    const wcagLevel = Utils.store.getItem('level');
+
+    getActiveRoot().forEach((root) => {
+      const aaaBadges = root.querySelectorAll('.aaanormal, .aaalarge');
+      if (wcagLevel === 'aa') {
+        Utils.store.setItem('level', 'aaa');
+        level.textContent = 'WCAG AAA';
+        aaaBadges.forEach((badge) => {
+          badge.removeAttribute('hidden');
+        });
+      } else {
+        Utils.store.setItem('level', 'aa');
+        level.textContent = 'WCAG AA';
+        aaaBadges.forEach((badge) => {
+          badge.setAttribute('hidden', '');
+        });
+      }
+    });
+  });
 }

@@ -1,23 +1,27 @@
+// Styles
 import '../styles/reset.css';
 import '../styles/style.css';
 
 // Utils
 import * as Utils from './utils/utils.js';
 import * as Icon from './utils/icons.js';
-import initUnsupported from './utils/unsupported.js';
 
-// Components/features
+// Components
+import initUnsupported from './components/unsupported.js';
 import initPictureInPicture from './components/picture-in-picture.js';
 import initEyeDropper from './components/eyedropper.js';
 import initToolbar from './components/toolbar.js';
 import initAutoFix from './components/autofix.js';
+import initColorInputs from './components/contrast.js';
+import initSavedColors from './components/swatches.js';
 
-import { initEventListeners } from './update.js';
-
-// Get defualt values.
+// Get default values.
 const { fg, bg } = Utils.getDefaultValues();
+const wcagLevel =
+  Utils.store.getItem('level') === 'aa' ? 'WCAG AA' : 'WCAG AAA';
+const hideAAA = Utils.store.getItem('level') === 'aa' ? 'hidden' : '';
 
-// Render UI
+// Render UI.
 document.querySelector('#app').innerHTML = `
   <nav><a href="#settings" class="skip" accesskey="s">Skip to settings</a></nav>
   <main>
@@ -62,11 +66,17 @@ document.querySelector('#app').innerHTML = `
           </div>
           <div class="result">
             <div>Normal text</div>
-            <div class="normal"></div>
+            <div>
+              <div class="normal"></div>
+              <div class="aaanormal" ${hideAAA}></div>
+            </div>
           </div>
           <div class="result">
             <div>Large text</div>
-            <div class="large"></div>
+            <div>
+              <div class="large"></div>
+              <div class="aaalarge" ${hideAAA}></div>
+            </div>
           </div>
           <div class="result">
             <div>Graphics</div>
@@ -83,8 +93,9 @@ document.querySelector('#app').innerHTML = `
           <div class="header">
             <h3>Normal text</h3>
             <div>
-              <button type="button" class="normal-fix">Fix ${Icon.fix}</button>
               <span class="normal"></span>
+              <span class="aaanormal" ${hideAAA}></span>
+              <button type="button" class="normal-fix">Fix ${Icon.fix}</button>
             </div>
           </div>
           <div id="normal-preview" class="card" style="color: ${fg}; background-color: ${bg}" contenteditable="true">
@@ -95,8 +106,9 @@ document.querySelector('#app').innerHTML = `
           <div class="header">
             <h3>Large text</h3>
             <div>
-              <button type="button" class="large-fix">Fix ${Icon.fix}</button>
               <span class="large"></span>
+              <span class="aaalarge" ${hideAAA}></span>
+              <button type="button" class="large-fix">Fix ${Icon.fix}</button>
             </div>
           </div>
           <div id="large-preview" class="card" style="color: ${fg}; background-color: ${bg}" contenteditable="true">
@@ -107,12 +119,12 @@ document.querySelector('#app').innerHTML = `
           <div class="header">
             <h3>Graphics</h3>
             <div>
-              <button type="button" class="graphics-fix">Fix ${Icon.fix}</button>
               <span class="graphics"></span>
+              <button type="button" class="graphics-fix">Fix ${Icon.fix}</button>
             </div>
           </div>
           <div id="graphics-preview" class="card" style="color: ${fg}; background-color: ${bg}">
-            ${Icon.bell + Icon.check + Icon.drop + Icon.cloud + Icon.trash + Icon.star}
+            ${Icon.bell + Icon.cloud + Icon.trash + Icon.star}
           </div>
         </div>
       </div>
@@ -121,35 +133,46 @@ document.querySelector('#app').innerHTML = `
     <section aria-labelledby="settings" id="settings-section">
       <h2 id="settings">Settings</h2>
       <div id="toolbar">
-        <button type="button">WCAG AA</button>
         <button type="button" id="reverse">Reverse ${Icon.reverse}</button>
+        <button type="button" id="level">${wcagLevel}</button>
         <button type="button" id="permalink">Permalink ${Icon.link}</button>
         <button type="button" id="save">Save ${Icon.drop}</button>
         <button type="button" id="theme">Theme ${Icon.moon}</button>
-        <button type="button" id="pip-btn" hidden>Pop out ${Icon.pip}</button>
+        <button type="button" id="pip-btn">Pop out ${Icon.pip}</button>
       </div>
     </section>
 
-    <section id="saved-colors" aria-labelledby="saved-colors">
+    <section id="saved-colors" aria-labelledby="saved-colors" hidden>
       <h2 id="saved-colors">Saved colours</h2>
+      <ul id="swatch-container"></ul>
     </section>
   </main>
 
   <footer>
     <details>
       <summary><h2>About this website</h2></summary>
+      <h3>Reference</h3>
+      <ul>
+        <li>WCAG is an abbreviation for Web Content Accessibility Guidelines.</li>
+        <li>WCAG has three levels: A, AA, and AA. There are different required contrast ratios for AA and AAA.</li>
+        <li>Normal size text (or body text) requires a contrast ratio of at least 4.5:1.</li>
+        <li>Large size text (or heading text) requires a contrast ratio of at least 3:1.</li>
+        <li>Large text is defined as 14 point (18.67 px) and bold or larger, or 18 point (24 px) or larger.</li>
+        <li>All graphics, icons, or interface items should have at least a 3:1 contrast ratio for both AA and AAA.</li>
+      </ul>
       <h3>Privacy</h3>
-      <p>No personal data is ever collected using this website. This website uses your browser’s web storage to remember recently used colour combination. This website uses privacy-oriented analytics. The analytics do not track IP addresses, fingerprints or cookies.</p>
+      <p>No personal data is ever collected using this website. This website uses your browser’s web storage to remember recently used colour combination. This website uses privacy-oriented analytics. The analytics do not track IP addresses, fingerprints, or cookies.</p>
       <h3>Open source</h3>
-      <p>Crafted by <a href="https://chaboryk.xyz">Adam Chaboryk.</a> View the source code on GitHub.</p>
+      <p>Crafted by <a href="https://chaboryk.xyz">Adam Chaboryk.</a> View the <a href="https://github.com/adamchaboryk/contrastic">source code on GitHub.</a></p>
     </details>
   </footer>
 `;
 
-// Initialize tools.
+// Initialize components.
 initUnsupported();
 initEyeDropper();
 initPictureInPicture();
 initToolbar();
 initAutoFix();
-initEventListeners();
+initColorInputs();
+initSavedColors();

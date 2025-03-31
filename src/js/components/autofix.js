@@ -1,6 +1,6 @@
 import * as Sa11y from 'sa11y/src/js/utils/contrast-utils.js';
 import * as Utils from '../utils/utils.js';
-import { synchronizeColors } from '../update.js';
+import { synchronizeColors } from './contrast.js';
 import { getActiveRoot } from './picture-in-picture.js';
 
 const getBetterHex = (isLargeText) => {
