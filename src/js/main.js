@@ -79,7 +79,7 @@ document.querySelector('#app').innerHTML = `
             </div>
           </div>
           <div class="result">
-            <div>Graphics</div>
+            <div>Graphics & UI</div>
             <div class="graphics"></div>
           </div>
         </section>
@@ -98,7 +98,7 @@ document.querySelector('#app').innerHTML = `
               <button type="button" class="normal-fix">Fix ${Icon.fix}</button>
             </div>
           </div>
-          <div id="normal-preview" class="card" style="color: ${fg}; background-color: ${bg}" contenteditable="true">
+          <div id="normal-preview" class="card" style="color: ${fg}; background-color: ${bg}" contenteditable="true" autocomplete="off" spellcheck="false">
             <p>The <em>quick</em> brown fox <strong>jumps</strong> over the lazy dog.</p>
           </div>
         </div>
@@ -111,13 +111,13 @@ document.querySelector('#app').innerHTML = `
               <button type="button" class="large-fix">Fix ${Icon.fix}</button>
             </div>
           </div>
-          <div id="large-preview" class="card" style="color: ${fg}; background-color: ${bg}" contenteditable="true">
+          <div id="large-preview" class="card" style="color: ${fg}; background-color: ${bg}" contenteditable="true" autocomplete="off" spellcheck="false">
             <p>The <em>quick</em> brown fox <strong>jumps</strong> over the lazy dog.</p>
           </div>
         </div>
-        <div class="flex-item">
+        <div class="flex-item" style="max-width: 260px;">
           <div class="header">
-            <h3>Graphics</h3>
+            <h3>Graphics & UI</h3>
             <div>
               <span class="graphics"></span>
               <button type="button" class="graphics-fix">Fix ${Icon.fix}</button>
@@ -134,9 +134,9 @@ document.querySelector('#app').innerHTML = `
       <h2 id="settings">Settings</h2>
       <div id="toolbar">
         <button type="button" id="reverse">Reverse ${Icon.reverse}</button>
-        <button type="button" id="level">${wcagLevel}</button>
         <button type="button" id="permalink">Permalink ${Icon.link}</button>
         <button type="button" id="save">Save ${Icon.drop}</button>
+        <button type="button" id="level">${wcagLevel}</button>
         <button type="button" id="theme">Theme ${Icon.moon}</button>
         <button type="button" id="pip-btn">Pop out ${Icon.pip}</button>
       </div>
@@ -150,8 +150,7 @@ document.querySelector('#app').innerHTML = `
 
   <footer>
     <details>
-      <summary><h2>About this website</h2></summary>
-      <h3>Reference</h3>
+      <summary><h2>Explanation</h2></summary>
       <ul>
         <li>WCAG is an abbreviation for Web Content Accessibility Guidelines.</li>
         <li>WCAG has three levels: A, AA, and AA. There are different required contrast ratios for AA and AAA.</li>
@@ -160,6 +159,9 @@ document.querySelector('#app').innerHTML = `
         <li>Large text is defined as 14 point (18.67 px) and bold or larger, or 18 point (24 px) or larger.</li>
         <li>All graphics, icons, or interface items should have at least a 3:1 contrast ratio for both AA and AAA.</li>
       </ul>
+    </details>
+    <details>
+      <summary><h2>About this website</h2></summary>
       <h3>Privacy</h3>
       <p>No personal data is ever collected using this website. This website uses your browser’s web storage to remember recently used colour combination. This website uses privacy-oriented analytics. The analytics do not track IP addresses, fingerprints, or cookies.</p>
       <h3>Open source</h3>

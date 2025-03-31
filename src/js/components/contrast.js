@@ -27,10 +27,17 @@ function togglePassFail(ratio) {
           element.classList.contains('aaanormal') ||
           element.classList.contains('aaalarge');
 
+        const passText = `<span class="sr-only">Passes</span>`;
+        const failText = `<span class="sr-only">Fails</span>`;
+
         if (aaa) {
-          $el.innerHTML = isPass ? `AAA ${Icon.check}` : `AAA ${Icon.fail}`;
+          $el.innerHTML = isPass
+            ? `${passText} AAA ${Icon.check}`
+            : `${failText} AAA ${Icon.fail}`;
         } else {
-          $el.innerHTML = isPass ? `AA ${Icon.check}` : `AA ${Icon.fail}`;
+          $el.innerHTML = isPass
+            ? `${passText} AA ${Icon.check}`
+            : `${failText} AA ${Icon.fail}`;
         }
       });
     });
