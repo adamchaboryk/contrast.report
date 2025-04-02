@@ -25,7 +25,7 @@ const hideAAA = Utils.store.getItem('level') === 'aa' ? 'hidden' : '';
 document.querySelector('#app').innerHTML = `
   <nav><a href="#settings" class="skip" accesskey="s">Skip to settings</a></nav>
   <main>
-    <h1>Contrast Checker</h1>
+    <h1>Contrast Review</h1>
     <div id="pip-container">
       <div id="pip-only">
         <section class="flex-container" aria-labelledby="color-pickers">

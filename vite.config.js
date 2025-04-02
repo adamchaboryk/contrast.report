@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import eslint from 'vite-plugin-eslint';
 import { VitePWA } from 'vite-plugin-pwa';
+import { cloudflare } from '@cloudflare/vite-plugin';
 
 export default defineConfig({
   publicDir: 'public',
@@ -38,5 +39,6 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
     }),
+    cloudflare(),
   ],
 });
