@@ -207,6 +207,8 @@ document.querySelector('#app').innerHTML = `
       <p>Crafted by <a href="https://chaboryk.xyz">Adam Chaboryk.</a></p>
       <h3>Privacy</h3>
       <p>No personal data is ever collected using this website. This website uses your browser’s web storage to remember recently used colour combination. This website uses privacy-oriented analytics. The analytics do not track IP addresses, fingerprints, or cookies.</p>
+      <h3>Open source</h3>
+      <p>View the <a href="https://github.com/adamchaboryk/contrast.report">source code on GitHub.</a></p>
     </details>
   </footer>
 `;
