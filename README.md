@@ -25,3 +25,7 @@ This tool works best in Chrome and Microsoft Edge! Eyedropper doesn't work on Wi
 ## To-do
 - [ ] i18n
 - [ ] Clean up spaghetti/refactor
+
+## Local development
+1. `npm install`
+2. `npm run dev`
