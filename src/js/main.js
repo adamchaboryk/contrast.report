@@ -195,7 +195,7 @@ document.querySelector('#app').innerHTML = `
       <summary><h2>Explanation</h2></summary>
       <ul>
         <li>WCAG is an abbreviation for Web Content Accessibility Guidelines.</li>
-        <li>WCAG has three levels: A, AA, and AA. There are different required contrast ratios for AA and AAA.</li>
+        <li>WCAG has three levels: A, AA, and AAA. There are different required contrast ratios for AA and AAA.</li>
         <li>Normal size text (or body text) requires a contrast ratio of at least 4.5:1.</li>
         <li>Large size text (or heading text) requires a contrast ratio of at least 3:1.</li>
         <li>Large text is defined as 14 point (18.67 px) and bold or larger, or 18 point (24 px) or larger.</li>
