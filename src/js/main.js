@@ -209,6 +209,7 @@ document.querySelector('#app').innerHTML = `
       <p>No personal data is ever collected using this website. This website uses your browser’s web storage to remember recently used colour combination. This website uses privacy-oriented analytics. The analytics do not track IP addresses, fingerprints, or cookies.</p>
       <h3>Open source</h3>
       <p>View the <a href="https://github.com/adamchaboryk/contrast.report">source code on GitHub.</a></p>
+      <iframe src="https://github.com/sponsors/adamchaboryk/card" title="Sponsor adamchaboryk" height="100%" width="600" style="border: 0;padding-top:10px;"></iframe>
     </details>
   </footer>
 `;
