@@ -81,9 +81,10 @@ function updateRatio() {
 
   if (contrast !== null) {
     if (!Number.isNaN(contrast.ratio) && Number.isFinite(contrast.ratio)) {
-      const formattedRatio = Number.isInteger(contrast.ratio)
-        ? contrast.ratio.toFixed(0)
-        : contrast.ratio.toFixed(1);
+      const truncatedRatio = Math.trunc(contrast.ratio * 10) / 10;
+      const formattedRatio = Number.isInteger(truncatedRatio)
+        ? truncatedRatio.toFixed(0)
+        : truncatedRatio.toFixed(1);
       const ratioHtml = `${formattedRatio}<span class="divider">:</span>1`;
 
       Utils.getActiveRoot().forEach((root) => {
