@@ -151,7 +151,7 @@ function updateRatio() {
         const key =
           formattedRatio >= config.value ? config.goodKey : config.lowKey;
         const p = preview;
-        p.innerHTML = Lang.sprintf(key, fg, bg, formattedRatio);
+        p.innerHTML = Lang.sprintf(key, fg, formattedRatio, bg);
       });
     }
   }
