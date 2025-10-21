@@ -53,6 +53,7 @@ document.querySelector('#app').innerHTML = `
       <div id="pip-only">
         <div id="alert" aria-live="polite" role="status"></div>
         <div id="color-tools">
+          <button type="button" id="pip-btn" class="glow">${Lang._('POP_OUT')} ${Icon.pip}</button>
           <button type="button" id="reverse"><span class="lg-only">${Lang._('REVERSE')}</span> ${Icon.reverse}</button>
           <button type="button" id="save">${Lang._('SAVE')}</button>
           <button type="button" id="permalink"><span class="lg-only">${Lang._('SHARE')}</span> ${Icon.link}</button>
@@ -193,7 +194,6 @@ document.querySelector('#app').innerHTML = `
       <div id="toolbar">
         <button type="button" id="level" lang="en">${wcagLevel}</button>
         <button type="button" id="theme">${Lang._('THEME')} ${Icon.moon}</button>
-        <button type="button" id="pip-btn" class="glow">${Lang._('POP_OUT')} ${Icon.pip}</button>
         <div class="select-dropdown"><select id="lang-select" aria-label="${Lang._('LANGUAGE')}"></select></div>
       </div>
     </section>
