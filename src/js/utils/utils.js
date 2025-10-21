@@ -1,5 +1,6 @@
 import chroma from 'chroma-js';
 import * as Icon from './icons.js';
+import Lang from './lang.js';
 
 export function normalizeColorInput(color) {
   // Strip excessive whitespace.
@@ -172,7 +173,7 @@ export const createAlert = (message) => {
         const closeButton = root.createElement('button');
         closeButton.classList.add('close-btn');
         closeButton.innerHTML = Icon.close;
-        closeButton.ariaLabel = 'Close alert';
+        closeButton.ariaLabel = Lang._('CLOSE_ALERT');
         closeButton.onclick = () => clearAlert();
 
         p.appendChild(closeButton);

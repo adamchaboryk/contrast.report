@@ -1,4 +1,5 @@
 import * as Sa11y from 'sa11y/src/js/utils/contrast-utils.js';
+import Lang from '../utils/lang.js';
 import * as Utils from '../utils/utils.js';
 import * as Icon from '../utils/icons.js';
 import Constants from '../utils/constants.js';
@@ -43,8 +44,8 @@ function togglePassFail(ratio) {
           element.classList.contains(cls),
         );
 
-        const passText = `<span class="sr-only">Passes</span>`;
-        const failText = `<span class="sr-only">Fails</span>`;
+        const passText = `<span class="sr-only">${Lang._('PASSES')}</span>`;
+        const failText = `<span class="sr-only">${Lang._('FAILS')}</span>`;
 
         if (isAAA) {
           $el.innerHTML = isPass
@@ -55,7 +56,9 @@ function togglePassFail(ratio) {
             ? `${passText} AA ${Icon.check}`
             : `${failText} AA ${Icon.fail}`;
         } else {
-          $el.innerHTML = isPass ? `Good ${Icon.check}` : `Low ${Icon.fail}`;
+          $el.innerHTML = isPass
+            ? `${Lang._('GOOD')} ${Icon.check}`
+            : `${Lang._('LOW')} ${Icon.fail}`;
         }
       });
     });
@@ -124,20 +127,31 @@ function updateRatio() {
       const textPreviews = document.querySelectorAll(
         '#normal-preview, #large-preview, #graphics-text',
       );
+      const thresholds = {
+        'large-preview': {
+          value: 3,
+          goodKey: 'CONTRAST_LARGE_GOOD',
+          lowKey: 'CONTRAST_LARGE_LOW',
+        },
+        'graphics-text': {
+          value: 3,
+          goodKey: 'CONTRAST_GRAPHICS_GOOD',
+          lowKey: 'CONTRAST_GRAPHICS_LOW',
+        },
+        default: {
+          value: 4.5,
+          goodKey: 'CONTRAST_NORMAL_GOOD',
+          lowKey: 'CONTRAST_NORMAL_LOW',
+        },
+      };
+
       textPreviews.forEach((preview) => {
         const { id } = preview;
-        let threshold = 4.5;
-        let description = 'normal text';
-        if (id === 'large-preview') {
-          threshold = 3;
-          description = 'large text';
-        } else if (id === 'graphics-text') {
-          threshold = 3;
-          description = 'graphics and UI elements';
-        }
-        const status = formattedRatio >= threshold ? 'good' : 'low';
+        const config = thresholds[id] || thresholds.default;
+        const key =
+          formattedRatio >= config.value ? config.goodKey : config.lowKey;
         const p = preview;
-        p.innerHTML = `${fg} has a ${status} contrast ratio of ${formattedRatio}:1 with the background ${bg} for ${description}.`;
+        p.innerHTML = Lang.sprintf(key, fg, bg, formattedRatio);
       });
     }
   }
@@ -172,7 +186,7 @@ function validateColor(color) {
   let validColor = color;
   validColor = Sa11y.convertToRGBA(color);
   if (validColor === 'unsupported') {
-    Utils.createAlert('Sorry, this colour space is not supported!');
+    Utils.createAlert(Lang._('UNSUPPORTED_COLOUR_SPACE'));
   }
   return validColor;
 }
@@ -182,7 +196,7 @@ function validateBackgroundColor(color) {
   // Strip alpha from background.
   validColor = Sa11y.convertToRGBA(color).slice(0, -1);
   if (validColor === 'unsupported') {
-    Utils.createAlert('Sorry, this colour space is not supported!');
+    Utils.createAlert(Lang._('UNSUPPORTED_COLOUR_SPACE'));
   }
   return validColor;
 }

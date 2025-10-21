@@ -1,6 +1,7 @@
 import * as Sa11y from 'sa11y/src/js/utils/contrast-utils.js';
 import * as Utils from '../utils/utils.js';
 import { synchronizeColors } from './contrast.js';
+import Lang from '../utils/lang.js';
 
 const getBetterHex = (isLargeText) => {
   const { fg, bg } = Utils.getDefaultValues();
@@ -10,9 +11,7 @@ const getBetterHex = (isLargeText) => {
   const betterHex = Sa11y.suggestColorWCAG(fgRGB, bgRGB, isLargeText, level);
 
   if (betterHex.color === null) {
-    Utils.createAlert(
-      'No accessible combination can be found by changing the text colour. Try changing the background colour.',
-    );
+    Utils.createAlert(Lang._('NO_COMBO_FOUND'));
   } else {
     let convertedColor;
     if (fg.startsWith('rgb')) {

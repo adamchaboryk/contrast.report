@@ -1,4 +1,5 @@
 import * as Sa11y from 'sa11y/src/js/utils/contrast-utils.js';
+import Lang from '../utils/lang.js';
 import * as Utils from '../utils/utils.js';
 import { synchronizeColors } from './contrast.js';
 
@@ -44,7 +45,7 @@ export default function initToolbar() {
       navigator.clipboard
         .writeText(permalink)
         .then(() => {
-          Utils.createAlert('Link copied to clipboard!');
+          Utils.createAlert(Lang._('LINK_COPIED'));
         })
         .catch((error) => {
           console.error('Failed to copy:', error);
@@ -71,9 +72,6 @@ export default function initToolbar() {
 
     document.documentElement.setAttribute('data-theme', theme);
     Utils.store.setItem('theme', theme);
-    // const icon = themeToggle.querySelector('span').classList;
-    // icon.toggle('moon-icon', theme === 'light');
-    // icon.toggle('sun-icon', theme === 'dark');
     themeToggle.setAttribute(
       'aria-pressed',
       theme === 'dark' ? 'true' : 'false',

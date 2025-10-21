@@ -1,4 +1,5 @@
 import * as Utils from '../utils/utils.js';
+import Lang from '../utils/lang.js';
 import * as Icon from '../utils/icons.js';
 
 function generateSwatchButtons() {
@@ -11,7 +12,7 @@ function generateSwatchButtons() {
     const li = document.createElement('li');
     li.innerHTML = `<a
       href="${permalink}"
-      aria-label="Swatch: ${foreground} on ${background}"
+      aria-label="${Lang.sprintf('SWATCH', foreground, background)}"
       style="color: ${foreground}; background: ${background}; border: 3px solid ${foreground}"
       class="swatch">${Icon.drop}</a>`;
     container.appendChild(li);
@@ -36,13 +37,13 @@ function toggleSaveButton(foreground, background) {
 
   if (index > -1) {
     swatches.splice(index, 1); // Remove swatch
-    save.innerHTML = `<span class="lg-only">Save</span> ${Icon.save}`;
+    save.innerHTML = `<span class="lg-only">${Lang._('SAVE')}</span> ${Icon.save}`;
   } else {
     swatches.push([foreground, background]); // Add swatch
-    save.textContent = 'Unsave';
+    save.innerHTML = `<span class="lg-only">${Lang._('UNSAVE')}</span> ${Icon.trash}`;
 
     if (window.documentPictureInPicture?.window?.document) {
-      Utils.createAlert('Swatch saved to main window.');
+      Utils.createAlert(Lang._('SWATCH_SAVED_WINDOW'));
     } else {
       const element = document.getElementById('saved-colors-heading');
       element.scrollIntoView({
@@ -76,8 +77,8 @@ export function updateSaveTextButton() {
   save.innerHTML = swatches.some(
     ([fg, bg]) => fg === foreground && bg === background,
   )
-    ? 'Unsave'
-    : `<span class="lg-only">Save</span> ${Icon.save}`;
+    ? `<span class="lg-only">${Lang._('UNSAVE')}</span> ${Icon.trash}`
+    : `<span class="lg-only">${Lang._('SAVE')}</span> ${Icon.save}`;
 }
 
 export default function initSavedColors() {
