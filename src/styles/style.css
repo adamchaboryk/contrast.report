@@ -635,6 +635,7 @@ details[open]>*:last-child {
 }
 
 /* Focus outline */
+select,
 a.swatch,
 [contenteditable],
 button {
@@ -690,6 +691,21 @@ p.alert {
   &:hover,
   &:focus {
     color: #16424f;
+  }
+}
+
+/* Improve translation? */
+html:is([lang='en'], [lang='en-US']) p.improve-translation {
+  display: none;
+}
+
+p.improve-translation {
+  padding-top: 2rem;
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-inline-end: 5px;
   }
 }
 

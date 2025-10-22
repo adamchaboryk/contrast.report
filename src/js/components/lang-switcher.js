@@ -50,7 +50,7 @@ export default function initLang() {
     window.location.reload();
   });
 
-  const savedLocale = store.getItem('lang');
+  const savedLocale = store.getItem('lang') || 'en';
   if (savedLocale) {
     Lang.setLocale(savedLocale);
     select.value = savedLocale;

@@ -39,10 +39,9 @@ const hideAAA = Utils.store.getItem('level') === 'aa' ? 'hidden' : '';
 let locale = Utils.store.getItem('lang');
 if (!locale) {
   const navLang = navigator.language || navigator.userLanguage;
-  console.log(navLang);
   locale = navLang ? navLang.replace('-', '') : 'enUS';
 }
-Lang.setLocale(locale);
+await Lang.setLocale(locale);
 
 // Render UI.
 document.querySelector('#app').innerHTML = `
@@ -212,6 +211,7 @@ document.querySelector('#app').innerHTML = `
       ${Lang._('ABOUT_BODY')}
       <iframe src="https://github.com/sponsors/adamchaboryk/card" title="${Lang._('SPONSOR')}" height="100%" width="600" style="border: 0;padding-top:10px;"></iframe>
     </details>
+    <p class="improve-translation">${Icon.github} <a href="https://github.com/adamchaboryk/contrast.report/blob/main/src/js/locales/${locale}.js">${Lang._('IMPROVE_TRANSLATION')}</a></p>
   </footer>
 `;
 
