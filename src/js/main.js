@@ -41,10 +41,14 @@ if (!locale) {
   const navLang = navigator.language || navigator.userLanguage;
   locale = navLang ? navLang.replace('-', '') : 'enUS';
 }
-await Lang.setLocale(locale);
 
-// Render UI.
-document.querySelector('#app').innerHTML = `
+// Cloudflare doesn't support top-level async call, so wrap in IIFE.
+(async () => {
+  // Fetch locale.
+  await Lang.setLocale(locale);
+
+  // Render UI.
+  document.querySelector('#app').innerHTML = `
   <nav><a href="#settings" class="skip">${Lang._('SKIP_TO_SETTINGS')}</a></nav>
   <main>
     <h1>${Lang._('CONTRAST_REPORT')}</h1>
@@ -215,14 +219,15 @@ document.querySelector('#app').innerHTML = `
   </footer>
 `;
 
-// Initialize components.
-Constants.initConstants();
-initUnsupported();
-initEyeDropper();
-initPictureInPicture();
-initToolbar();
-initAutoFix();
-initColorInputs();
-initSavedColors();
-initColorPickers();
-initLang();
+  // Initialize components.
+  Constants.initConstants();
+  initUnsupported();
+  initEyeDropper();
+  initPictureInPicture();
+  initToolbar();
+  initAutoFix();
+  initColorInputs();
+  initSavedColors();
+  initColorPickers();
+  initLang();
+})();
