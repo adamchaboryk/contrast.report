@@ -1,3 +1,4 @@
+// Norsk Bokmål (Norwegian)
 export default {
   CONTRAST_REPORT: 'Kontrastrapport',
   REVERSE: 'Reverser',

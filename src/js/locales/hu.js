@@ -1,3 +1,4 @@
+// Magyar (Hungarian)
 export default {
   CONTRAST_REPORT: 'Kontrasztjelentés',
   REVERSE: 'Megfordít',

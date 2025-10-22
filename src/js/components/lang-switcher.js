@@ -35,6 +35,7 @@ const languages = {
 export default function initLang() {
   const select = document.getElementById('lang-select');
 
+  // Populate list of languages based on list above.
   Object.entries(languages).forEach(([code, label]) => {
     const option = document.createElement('option');
     option.value = code;
@@ -44,19 +45,21 @@ export default function initLang() {
     select.appendChild(option);
   });
 
+  // Listen for changes on language <select>
   select.addEventListener('change', (e) => {
     Lang.setLocale(e.target.value);
     store.setItem('lang', e.target.value);
     window.location.reload();
   });
 
+  // Return locale based on local storage value.
   const savedLocale = store.getItem('lang') || 'en';
   if (savedLocale) {
     Lang.setLocale(savedLocale);
     select.value = savedLocale;
   }
 
-  // <html> page language.
+  // Update <html> page language.
   const htmlLang = savedLocale.replace(/([a-z]{2})([A-Z]{2})/, '$1-$2');
   document.documentElement.lang = htmlLang;
 }

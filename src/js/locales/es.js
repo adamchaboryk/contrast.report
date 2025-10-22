@@ -1,3 +1,4 @@
+// Español (Spanish)
 export default {
   CONTRAST_REPORT: 'Informe de contraste',
   REVERSE: 'Invertir',

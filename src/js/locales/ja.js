@@ -1,3 +1,4 @@
+// 日本語 (Japanese)
 export default {
   CONTRAST_REPORT: 'コントラストレポート',
   REVERSE: '反転',

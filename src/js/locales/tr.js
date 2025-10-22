@@ -1,3 +1,4 @@
+// Türkçe (Turkish)
 export default {
   CONTRAST_REPORT: 'Kontrast Raporu',
   REVERSE: 'Tersine çevir',

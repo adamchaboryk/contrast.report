@@ -1,3 +1,4 @@
+// Suomi (Finnish)
 export default {
   CONTRAST_REPORT: 'Kontrastiraportti',
   REVERSE: 'Käännä',

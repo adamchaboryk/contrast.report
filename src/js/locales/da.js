@@ -1,3 +1,4 @@
+// Dansk (Danish)
 export default {
   CONTRAST_REPORT: 'Kontrastrapport',
   REVERSE: 'Omvend',

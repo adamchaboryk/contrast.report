@@ -1,3 +1,4 @@
+// Svenska (Swedish)
 export default {
   CONTRAST_REPORT: 'Kontrastrapport',
   REVERSE: 'Vänd',

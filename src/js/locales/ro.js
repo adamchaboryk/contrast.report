@@ -1,3 +1,4 @@
+// Română (Romanian)
 export default {
   CONTRAST_REPORT: 'Raport de contrast',
   REVERSE: 'Inversează',

@@ -1,3 +1,4 @@
+// 中文 (Chinese)
 export default {
   CONTRAST_REPORT: '对比度报告',
   REVERSE: '反转',

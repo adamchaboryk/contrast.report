@@ -1,4 +1,4 @@
-/* Language object */
+// Language object.
 const Lang = {
   locale: 'en',
   langStrings: {},
@@ -11,10 +11,12 @@ const Lang = {
     return this.langStrings[key] || key;
   },
 
+  // Simple translation strings.
   _(key) {
     return this.translate(key);
   },
 
+  // Translation strings with variables.
   sprintf(key, ...args) {
     let text = this.translate(key);
     args.forEach((arg) => {
@@ -23,6 +25,7 @@ const Lang = {
     return text;
   },
 
+  // Dynamically import language file.
   async setLocale(locale = 'en') {
     this.locale = locale;
     try {

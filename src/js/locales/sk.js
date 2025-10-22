@@ -1,3 +1,4 @@
+// Slovenčina (Slovak)
 export default {
   CONTRAST_REPORT: 'Správa o kontraste',
   REVERSE: 'Obrátiť',

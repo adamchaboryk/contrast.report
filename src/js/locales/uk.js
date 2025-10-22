@@ -1,3 +1,4 @@
+// Українська (Ukrainian)
 export default {
   CONTRAST_REPORT: 'Звіт про контрастність',
   REVERSE: 'Змінити місцями',

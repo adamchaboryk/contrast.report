@@ -1,3 +1,4 @@
+// Latviešu (Latvian)
 export default {
   CONTRAST_REPORT: 'Kontrasta pārskats',
   REVERSE: 'Apgriezt',

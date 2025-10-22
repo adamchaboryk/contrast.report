@@ -1,3 +1,4 @@
+// Français (French)
 export default {
   CONTRAST_REPORT: 'Rapport de contraste',
   REVERSE: 'Inverser',

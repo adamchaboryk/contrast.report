@@ -1,3 +1,4 @@
+// Slovenščina (Slovenian)
 export default {
   CONTRAST_REPORT: 'Poročilo o kontrastu',
   REVERSE: 'Obrni',

@@ -23,8 +23,8 @@ With many thanks to @itmaybejj for feedback and moral support. ✨
 This tool works best in Chrome and Microsoft Edge! Eyedropper doesn't work on Windows unfortunately, please use eyedropper within native colour picker.
 
 ## To-do
-- [x] i18n
 - [ ] Clean up spaghetti/refactor
+- [ ] Maybe support APCA?
 
 ## Local development
 1. `npm install`

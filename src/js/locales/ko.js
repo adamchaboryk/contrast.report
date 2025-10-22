@@ -1,3 +1,4 @@
+// 한국어' (Korean)
 export default {
   CONTRAST_REPORT: '명암 대비 보고서',
   REVERSE: '반전',

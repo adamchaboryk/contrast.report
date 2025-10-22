@@ -1,3 +1,4 @@
+// Bahasa Indonesia
 export default {
   CONTRAST_REPORT: 'Laporan Kontras',
   REVERSE: 'Balik',

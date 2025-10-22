@@ -1,3 +1,4 @@
+// Lietuvių (Lithuanian)
 export default {
   CONTRAST_REPORT: 'Kontrasto ataskaita',
   REVERSE: 'Apversti',

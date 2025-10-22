@@ -1,3 +1,4 @@
+// Eesti (Estonian)
 export default {
   CONTRAST_REPORT: 'Kontrastiaruanne',
   REVERSE: 'Pööra ümber',

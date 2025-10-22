@@ -1,3 +1,4 @@
+// Nederlands (Dutch)
 export default {
   CONTRAST_REPORT: 'Contrastrapport',
   REVERSE: 'Omkeren',

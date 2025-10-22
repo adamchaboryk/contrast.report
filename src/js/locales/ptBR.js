@@ -1,3 +1,4 @@
+// Português (Brasil)
 export default {
   CONTRAST_REPORT: 'Relatório de Contraste',
   REVERSE: 'Inverter',

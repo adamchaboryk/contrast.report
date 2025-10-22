@@ -1,3 +1,4 @@
+// Čeština (Czech)
 export default {
   CONTRAST_REPORT: 'Zpráva o kontrastu',
   REVERSE: 'Invertovat',
