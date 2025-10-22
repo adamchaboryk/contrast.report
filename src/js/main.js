@@ -45,7 +45,12 @@ if (!locale) {
 // Cloudflare doesn't support top-level async call, so wrap in IIFE.
 (async () => {
   // Fetch locale.
-  await Lang.setLocale(locale);
+  try {
+    await Lang.setLocale(locale);
+  } catch {
+    locale = 'enUS';
+    await Lang.setLocale(locale);
+  }
 
   // Render UI.
   document.querySelector('#app').innerHTML = `
@@ -58,7 +63,7 @@ if (!locale) {
         <div id="color-tools">
           <button type="button" id="pip-btn" class="glow">${Lang._('POP_OUT')} ${Icon.pip}</button>
           <button type="button" id="reverse"><span class="lg-only">${Lang._('REVERSE')}</span> ${Icon.reverse}</button>
-          <button type="button" id="save">${Lang._('SAVE')}</button>
+          <button type="button" id="save">${Lang._('SAVE')} ${Icon.save}</button>
           <button type="button" id="permalink"><span class="lg-only">${Lang._('SHARE')}</span> ${Icon.link}</button>
         </div>
         <section class="flex-container" aria-labelledby="color-pickers">

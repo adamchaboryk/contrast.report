@@ -93,9 +93,14 @@ export default function initSavedColors() {
     toggleSaveButton(foreground, background);
   });
 
-  // Update button text on page load.
-  document.addEventListener('DOMContentLoaded', () => {
-    updateSaveTextButton();
-    generateSwatchButtons();
-  });
+  // Load swatches on page.
+  const waitForElement = () => {
+    if (root.getElementById('save')) {
+      updateSaveTextButton();
+      generateSwatchButtons();
+    } else {
+      requestAnimationFrame(waitForElement);
+    }
+  };
+  requestAnimationFrame(waitForElement);
 }
