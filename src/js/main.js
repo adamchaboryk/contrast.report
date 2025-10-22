@@ -48,7 +48,7 @@ if (!locale) {
   try {
     await Lang.setLocale(locale);
   } catch {
-    locale = 'enUS';
+    locale = 'en';
     await Lang.setLocale(locale);
   }
 
