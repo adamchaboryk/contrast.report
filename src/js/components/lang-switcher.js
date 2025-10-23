@@ -1,7 +1,7 @@
 import Lang from '../utils/lang.js';
 import { store } from '../utils/utils.js';
 
-export const languages = {
+const languages = {
   en: 'English',
   enUS: 'English (US)',
   id: 'Bahasa Indonesia',
@@ -32,7 +32,29 @@ export const languages = {
   zh: '中文',
 };
 
+// Initialize page language.
 export function initLang() {
+  let locale = store.getItem('lang');
+  if (!locale) {
+    const navLang = navigator.language || navigator.userLanguage;
+    if (navLang) {
+      const normalized = navLang.replace('-', '');
+      const exceptions = ['enUS', 'ptPT', 'ptBR'];
+      locale = exceptions.includes(normalized)
+        ? normalized
+        : navLang.slice(0, 2);
+    } else {
+      locale = 'en';
+    }
+  }
+
+  // If not a supported language, return English.
+  if (!Object.prototype.hasOwnProperty.call(languages, locale)) locale = 'en';
+  return locale;
+}
+
+// Initialize <select> menu language switcher.
+export function initLangSwitcher(locale) {
   const select = document.getElementById('lang-select');
 
   // Populate list of languages based on list above.
@@ -52,12 +74,10 @@ export function initLang() {
     window.location.reload();
   });
 
-  // Return locale based on local storage value.
-  const savedLocale = store.getItem('lang') || 'en';
-  if (savedLocale) {
-    Lang.setLocale(savedLocale);
-    select.value = savedLocale;
-  }
+  // Return locale based on local storage value, otherwise use detected browser language.
+  const savedLocale = store.getItem('lang') || locale;
+  Lang.setLocale(savedLocale);
+  select.value = savedLocale;
 
   // Update <html> page language.
   const htmlLang = savedLocale.replace(/([a-z]{2})([A-Z]{2})/, '$1-$2');
