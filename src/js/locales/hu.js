@@ -68,4 +68,7 @@ export default {
     <p>Tekintse meg a <a href="https://github.com/adamchaboryk/contrast.report">forráskódot a GitHubon.</a></p>`,
   SPONSOR: 'Támogató',
   IMPROVE_TRANSLATION: 'Javítsa ezt a fordítást',
+  NOT_AVAILABLE: 'Néhány funkció nem érhető el',
+  NOT_AVAILABLE_BODY:
+    'Ez a webhely kísérleti technológiákat használ (például kép a képben módot és színválasztókat), amelyek nem érhetők el a böngészőjében. Fontolja meg a Google Chrome vagy a Microsoft Edge használatát a jobb élmény érdekében!',
 };

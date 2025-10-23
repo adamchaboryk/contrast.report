@@ -67,4 +67,7 @@ export default {
   <p>在 <a href="https://github.com/adamchaboryk/contrast.report">GitHub</a> 上查看源代码。</p>`,
   SPONSOR: '赞助',
   IMPROVE_TRANSLATION: '改进此翻译',
+  NOT_AVAILABLE: '某些功能不可用',
+  NOT_AVAILABLE_BODY:
+    '此网站使用实验性技术（如画中画模式和颜色选择器），在您的浏览器中不可用。建议使用 Google Chrome 或 Microsoft Edge 以获得更好的体验！',
 };

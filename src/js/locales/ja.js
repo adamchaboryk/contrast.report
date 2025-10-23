@@ -69,4 +69,7 @@ export default {
     <p><a href="https://github.com/adamchaboryk/contrast.report">GitHubでソースコードを確認できます。</a></p>`,
   SPONSOR: 'スポンサー',
   IMPROVE_TRANSLATION: 'この翻訳を改善',
+  NOT_AVAILABLE: '一部の機能は利用できません',
+  NOT_AVAILABLE_BODY:
+    'このウェブサイトでは、Picture-in-Picture モードやカラーピッカーなどの実験的な技術を使用していますが、お使いのブラウザでは利用できません。より良い体験のために、Google Chrome または Microsoft Edge の使用を検討してください。',
 };

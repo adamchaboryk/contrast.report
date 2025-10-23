@@ -68,4 +68,7 @@ export default {
   <p><a href="https://github.com/adamchaboryk/contrast.report">GitHub</a> üzerinde kaynak kodu görüntüleyin.</p>`,
   SPONSOR: 'Sponsor',
   IMPROVE_TRANSLATION: 'Bu çeviriyi geliştir',
+  NOT_AVAILABLE: 'Bazı özellikler mevcut değil',
+  NOT_AVAILABLE_BODY:
+    'Bu web sitesi, tarayıcınızda bulunmayan deneysel teknolojiler (örneğin Picture-in-Picture modu ve renk seçiciler) kullanmaktadır. Daha iyi bir deneyim için Google Chrome veya Microsoft Edge kullanmayı düşünün!',
 };

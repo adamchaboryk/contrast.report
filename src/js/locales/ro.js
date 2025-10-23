@@ -69,4 +69,7 @@ export default {
     <p>Vezi <a href="https://github.com/adamchaboryk/contrast.report">codul sursă pe GitHub.</a></p>`,
   SPONSOR: 'Sponsor',
   IMPROVE_TRANSLATION: 'Îmbunătățiți această traducere',
+  NOT_AVAILABLE: 'Unele funcții nu sunt disponibile',
+  NOT_AVAILABLE_BODY:
+    'Acest site folosește tehnologii experimentale (precum modul Picture-in-Picture și selectorii de culori) care nu sunt disponibile în browserul tău. Ia în considerare utilizarea Google Chrome sau Microsoft Edge pentru o experiență mai bună!',
 };

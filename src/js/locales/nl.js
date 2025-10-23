@@ -67,4 +67,7 @@ export default {
     <p>Bekijk de <a href="https://github.com/adamchaboryk/contrast.report">broncode op GitHub.</a></p>`,
   SPONSOR: 'Sponsor',
   IMPROVE_TRANSLATION: 'Verbeter deze vertaling',
+  NOT_AVAILABLE: 'Sommige functies zijn niet beschikbaar',
+  NOT_AVAILABLE_BODY:
+    'Deze website gebruikt experimentele technologieën (zoals Picture-in-Picture-modus en kleurkiezers) die niet beschikbaar zijn in je browser. Overweeg Google Chrome of Microsoft Edge te gebruiken voor een betere ervaring!',
 };

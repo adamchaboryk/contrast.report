@@ -1,3 +1,5 @@
+import Lang from '../utils/lang.js';
+
 export default function initUnsupported() {
   // Warning if using unsupported browser.
   if (!window.EyeDropper || !window.documentPictureInPicture) {
@@ -7,8 +9,8 @@ export default function initUnsupported() {
     unsupported.id = 'unsupported-warning';
     unsupported.role = 'alert';
     unsupported.innerHTML = `
-      <h2 id="unsupported-heading">Some features are not available</h2>
-      <p>This website uses experimental technologies (like Picture-in-Picture mode and colour pickers) that are not available in your browser. Consider using Google Chrome or Microsoft Edge for a better experience!</p>
+      <h2 id="unsupported-heading">${Lang._('NOT_AVAILABLE')}</h2>
+      <p>${Lang._('NOT_AVAILABLE_BODY')}</p>
     `;
     if (about) about.insertAdjacentElement('beforebegin', unsupported);
 

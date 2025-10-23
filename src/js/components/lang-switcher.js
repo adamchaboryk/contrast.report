@@ -1,7 +1,7 @@
 import Lang from '../utils/lang.js';
 import { store } from '../utils/utils.js';
 
-const languages = {
+export const languages = {
   en: 'English',
   enUS: 'English (US)',
   id: 'Bahasa Indonesia',
@@ -32,7 +32,7 @@ const languages = {
   zh: '中文',
 };
 
-export default function initLang() {
+export function initLang() {
   const select = document.getElementById('lang-select');
 
   // Populate list of languages based on list above.

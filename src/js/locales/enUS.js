@@ -72,4 +72,7 @@ export default {
     `,
   SPONSOR: 'Sponsor',
   IMPROVE_TRANSLATION: 'Improve this translation',
+  NOT_AVAILABLE: 'Some features are not available',
+  NOT_AVAILABLE_BODY:
+    'This website uses experimental technologies (like Picture-in-Picture mode and colour pickers) that are not available in your browser. Consider using Google Chrome or Microsoft Edge for a better experience!',
 };

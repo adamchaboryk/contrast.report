@@ -67,4 +67,7 @@ export default {
     <p>Lihat <a href="https://github.com/adamchaboryk/contrast.report">kode sumber di GitHub.</a></p>`,
   SPONSOR: 'Sponsor',
   IMPROVE_TRANSLATION: 'Perbaiki terjemahan ini',
+  NOT_AVAILABLE: 'Beberapa fitur tidak tersedia',
+  NOT_AVAILABLE_BODY:
+    'Situs ini menggunakan teknologi eksperimental (seperti mode Picture-in-Picture dan pemilih warna) yang tidak tersedia di browser Anda. Pertimbangkan untuk menggunakan Google Chrome atau Microsoft Edge untuk pengalaman yang lebih baik!',
 };

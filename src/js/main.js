@@ -27,7 +27,7 @@ import initAutoFix from './components/autofix.js';
 import initColorInputs from './components/contrast.js';
 import initSavedColors from './components/swatches.js';
 import initColorPickers from './components/color-pickers.js';
-import initLang from './components/lang-switcher.js';
+import { initLang, languages } from './components/lang-switcher.js';
 
 // Get default values.
 const { fg, bg } = Utils.getDefaultValues();
@@ -39,13 +39,23 @@ const hideAAA = Utils.store.getItem('level') === 'aa' ? 'hidden' : '';
 let locale = Utils.store.getItem('lang');
 if (!locale) {
   const navLang = navigator.language || navigator.userLanguage;
-  locale = navLang ? navLang.replace('-', '') : 'enUS';
+  if (navLang) {
+    const normalized = navLang.replace('-', '');
+    const exceptions = ['enUS', 'ptPT', 'ptBR'];
+    locale = exceptions.includes(normalized) ? normalized : navLang.slice(0, 2);
+  } else {
+    locale = 'en';
+  }
 }
+
+// If not a supported language, return English.
+if (!Object.prototype.hasOwnProperty.call(languages, locale)) locale = 'en';
 
 // Cloudflare doesn't support top-level async call, so wrap in IIFE.
 (async () => {
   // Fetch locale.
   try {
+    console.log(locale);
     await Lang.setLocale(locale);
   } catch {
     locale = 'en';

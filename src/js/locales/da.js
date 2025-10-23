@@ -68,4 +68,7 @@ export default {
       <p>Se <a href="https://github.com/adamchaboryk/contrast.report">kildekoden på GitHub.</a></p>`,
   SPONSOR: 'Sponsor',
   IMPROVE_TRANSLATION: 'Forbedr denne oversættelse',
+  NOT_AVAILABLE: 'Nogle funktioner er ikke tilgængelige',
+  NOT_AVAILABLE_BODY:
+    'Dette websted bruger eksperimentelle teknologier (som Picture-in-Picture-tilstand og farvevælgere), der ikke er tilgængelige i din browser. Overvej at bruge Google Chrome eller Microsoft Edge for en bedre oplevelse!',
 };

@@ -68,4 +68,7 @@ export default {
     <p>Skatiet <a href="https://github.com/adamchaboryk/contrast.report">pirmkodu GitHub.</a></p>`,
   SPONSOR: 'Atbalstītājs',
   IMPROVE_TRANSLATION: 'Uzlabot šo tulkojumu',
+  NOT_AVAILABLE: 'Dažas funkcijas nav pieejamas',
+  NOT_AVAILABLE_BODY:
+    'Šī vietne izmanto eksperimentālas tehnoloģijas (piemēram, Picture-in-Picture režīmu un krāsu atlasītājus), kas nav pieejamas jūsu pārlūkprogrammā. Apsveriet iespēju izmantot Google Chrome vai Microsoft Edge, lai uzlabotu pieredzi!',
 };

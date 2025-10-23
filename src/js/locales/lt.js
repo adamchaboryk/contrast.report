@@ -68,4 +68,7 @@ export default {
     <p>Peržiūrėkite <a href="https://github.com/adamchaboryk/contrast.report">šaltinio kodą „GitHub“.</a></p>`,
   SPONSOR: 'Rėmėjas',
   IMPROVE_TRANSLATION: 'Patobulinti šį vertimą',
+  NOT_AVAILABLE: 'Kai kurios funkcijos nepasiekiamos',
+  NOT_AVAILABLE_BODY:
+    'Ši svetainė naudoja eksperimentines technologijas (pvz., Picture-in-Picture režimą ir spalvų parinkiklius), kurios jūsų naršyklėje nepasiekiamos. Apsvarstykite galimybę naudoti „Google Chrome“ arba „Microsoft Edge“ geresnei patirčiai!',
 };
