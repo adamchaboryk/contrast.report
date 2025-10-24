@@ -240,7 +240,7 @@ h3 {
   }
 
   #large-ratio {
-    display: none !important;
+    align-items: center;
   }
 }
 
